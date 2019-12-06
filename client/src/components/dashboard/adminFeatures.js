@@ -6,20 +6,24 @@ import PeopleIcon from "@material-ui/icons/People";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import NotificationImportantIcon from "@material-ui/icons/NotificationImportant";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import PageviewIcon from "@material-ui/icons/Pageview";
 import { setCurrentComponent } from "../../actions/componentActions";
 import { connect } from "react-redux";
 import Myprofile from "../myprofile";
-import ViewKra from "../viewkra";
 import AddUser from "../addUser";
 import ViewUsers from "../viewUser";
+import { viewUsers } from "../../actions/viewUser";
 
 class Adminfeatures extends Component {
   state = {};
   renderComponent = Component => {
     this.props.setCurrentComponent(Component);
   };
+  componentDidMount() {
+    this.props.viewUsers();
+  }
   render() {
+    const { allusers } = this.props;
+
     return (
       <div>
         <ListItem
@@ -47,7 +51,7 @@ class Adminfeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<ViewUsers />);
+            this.renderComponent(<ViewUsers allusers={allusers} />);
           }}
         >
           <ListItemIcon>
@@ -65,5 +69,10 @@ class Adminfeatures extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return { allusers: state.allusers.all_users };
+};
 
-export default connect(null, { setCurrentComponent })(Adminfeatures);
+export default connect(mapStateToProps, { setCurrentComponent, viewUsers })(
+  Adminfeatures
+);

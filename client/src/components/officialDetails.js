@@ -2,9 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import Select from "react-dropdown-select";
 import { MDBContainer } from "mdbreact";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
 import { connect } from "react-redux";
 import { formData, getDropdown } from "../actions/adduser";
 
@@ -27,18 +24,19 @@ export class OfficialDetails extends React.Component {
     return (
       <MDBContainer>
         <div style={{ maxWidth: "350px", margin: "0 auto" }}>
+          Designation
           <StyledSelect
-            placeholder={selectedDesignation.name || "Designation"}
+            multi={false}
             color="orange"
             searchBy="name"
-            searchable="true"
-            dropdownHandle="true"
+            searchable={true}
+            dropdownHandle={true}
             dropdownHeight="300px"
             direction="ltr"
+            values={[selectedDesignation]}
             labelField="name"
             valueField="name"
             options={designation}
-            keepSelectedInList={true}
             onChange={value =>
               this.props.formData({ selectedDesignation: value[0] })
             }
@@ -55,6 +53,7 @@ export class OfficialDetails extends React.Component {
             dropdownHandle="true"
             dropdownHeight="300px"
             direction="ltr"
+            values={[selectedDepartment]}
             labelField="name"
             valueField="name"
             options={department}
@@ -68,15 +67,14 @@ export class OfficialDetails extends React.Component {
         <br />
         <div style={{ maxWidth: "350px", margin: "0 auto" }}>
           <StyledSelect
-            placeholder={
-              selectedreportingManager.name || "Reporting Manager"
-            }
+            placeholder={selectedreportingManager.name || "Reporting Manager"}
             color="orange"
             searchBy="name"
             searchable="true"
             dropdownHandle="true"
             dropdownHeight="300px"
             direction="ltr"
+            values={[selectedreportingManager]}
             labelField="name"
             valueField="name"
             options={reportingManager}
@@ -97,6 +95,7 @@ export class OfficialDetails extends React.Component {
             dropdownHandle={true}
             dropdownHeight="300px"
             direction="ltr"
+            values={selectedkraAttributes}
             dropdownPosition="bottom"
             multi={true}
             labelField="name"
@@ -105,15 +104,9 @@ export class OfficialDetails extends React.Component {
             keepSelectedInList={true}
             onChange={value => {
               this.props.formData({ selectedkraAttributes: value });
-              console.log(value)
             }}
             noDataLabel="No matches found"
           />
-          <div>
-            {selectedkraAttributes.map((kra)=>(
-              <p key={kra._id}>{kra.name}</p>
-            ))}
-          </div>
         </div>
       </MDBContainer>
     );

@@ -69,7 +69,8 @@ function CustomizedTables(props) {
   ];
 
   if (first === true) {
-    props.viewkra();
+    const d=new Date()
+    props.viewkra(d.getFullYear());
     setfirst(false);
   }
 
@@ -86,9 +87,9 @@ function CustomizedTables(props) {
               {trowhead[i]}
             </StyledTableCell>
             {month.kraAttributes.map((kra, j) => {
-              return <StyledTableCell key={j}>{kra.value}</StyledTableCell>;
+              return <StyledTableCell key={j} align="center">{kra.value}</StyledTableCell>
             })}
-            <StyledTableCell >{month.Status}</StyledTableCell>;
+            <StyledTableCell align="center">{month.Status}</StyledTableCell>
           </StyledTableRow>
         );
       });
@@ -140,7 +141,7 @@ function CustomizedTables(props) {
 
 const mapStateToProps = state => {
   return {
-    viewkradata: state.addKra.viewKraData.kraSheet,
+    viewkradata: state.addKra.viewKraData,
     kraattr: state.auth.user.userdata.kraAttributes
   };
 };

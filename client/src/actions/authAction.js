@@ -73,7 +73,7 @@ export const logoutUser = () => dispatch => {
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
   // dispatch({
-  //   type: SET_CURRENT_COMPONENT,
+  //   type: "SET_NULL",
   //   payload: {}
   // });
   // dispatch({

@@ -5,7 +5,7 @@ const adminauth = require("../../middleware/adminauth");
 const { showEmploye } = require("../admin_controllers/showemploye");
 const { addUser } = require("../admin_controllers/adduser");
 
-router.get("/showemployes", adminauth, showEmploye);
+router.get("/showemployees", adminauth, showEmploye);
 router.post("/adduser", [
     adminauth,
     check("name","Name is required").not().isEmpty(),

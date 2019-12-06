@@ -17,6 +17,7 @@ export const formData = formdata => dispatch => {
 };
 
 export const saveUser = userdata => dispatch => {
+  console.log(userdata);
   const res=Axios.post('/adduser', {userdata});
   console.log(res);
 };
