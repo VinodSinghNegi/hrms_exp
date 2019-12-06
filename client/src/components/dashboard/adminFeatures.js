@@ -12,6 +12,7 @@ import Myprofile from "../myprofile";
 import AddUser from "../addUser";
 import ViewUsers from "../viewUser";
 import { viewUsers } from "../../actions/viewUser";
+import KraRequest from "../kraRequest";
 
 class Adminfeatures extends Component {
   state = {};
@@ -59,7 +60,12 @@ class Adminfeatures extends Component {
           </ListItemIcon>
           <ListItemText primary="View All" />
         </ListItem>
-        <ListItem button>
+        <ListItem
+          button
+          onClick={() => {
+            this.renderComponent(<KraRequest />);
+          }}
+        >
           <ListItemIcon>
             <NotificationImportantIcon />
           </ListItemIcon>

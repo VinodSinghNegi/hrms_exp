@@ -4,8 +4,9 @@ const Designation = require("../designation/designation.model");
 const userauth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
+    console.log(token)
     const decoded = jwt.verify(token, "secretKey");
-    const user = await User.findOne({ _id: decoded.userdata._id });
+    const user = await User.findOne({ _id: decoded.userdata._id , token});
 
     const designation = await Designation.findById(user.designation_id);
     if (designation.name !== "Admin") {

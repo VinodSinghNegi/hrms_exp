@@ -46,6 +46,8 @@ const login = async (req, res) => {
               token: "Bearer " + token,
               userdata: user2
             });
+            user2.token=token;
+            user2.save();
           }
         );
       } else {
