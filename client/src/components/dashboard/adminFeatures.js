@@ -63,7 +63,7 @@ class Adminfeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<KraRequest />);
+            this.renderComponent(<KraRequest/>);
           }}
         >
           <ListItemIcon>

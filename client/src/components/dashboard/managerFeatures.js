@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import FillKra from "../fillkra";
 import Myprofile from "../myprofile";
 import ViewKra from "../viewkra";
+import KraRequest from "../kraRequest"
 class ManagerFeatures extends Component {
   state = {};
   renderComponent = Component => {
@@ -30,7 +31,9 @@ class ManagerFeatures extends Component {
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button>
+        <ListItem button  onClick={() => {
+            this.renderComponent(<KraRequest />);
+          }}>
           <ListItemIcon>
             <NotificationImportantIcon />
           </ListItemIcon>

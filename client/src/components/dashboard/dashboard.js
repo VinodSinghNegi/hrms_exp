@@ -117,8 +117,7 @@ function Dashboard(props) {
   const [component, setComponent] = React.useState(null);
   const [flag, setFlag] = React.useState(false);
 
-  if(flag===false){
-    console.log('in dashboard')
+  if (flag === false) {
     setDesignation(props.auth.user.userdata.designation_id.name);
     if (designation === "Admin") {
       setFlag(true);

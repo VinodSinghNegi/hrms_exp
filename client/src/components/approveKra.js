@@ -4,7 +4,12 @@ import Slider from "@material-ui/core/Slider";
 import { withStyles } from "@material-ui/core/styles";
 import getCurrentMonthAndYear from "./utils/getCurrentMonthAndYear";
 import { connect } from "react-redux";
-import { editkra, updatekra } from "../actions/viewkra";
+import {
+  updateKra,
+  submitUpdatedKra,
+  UpdatedkraValues
+} from "../actions/kraRequest";
+// import {UpdatedkraValues} from '../actions/viewkra';
 
 const style = {
   h3: {
@@ -45,11 +50,8 @@ const PrettoSlider = withStyles({
 })(Slider);
 
 class ApproveKra extends React.Component {
-  componentDidMount() {
-      this.props.editkra('hfajsdhfhjsdahfh')
-  }
   showlist = () => {
-    return this.props.kraAttributes.map(kra => {
+    return this.props.kraData.kraSheet[0].kraAttributes.map(kra => {
       return (
         <Grid.Row key={kra._id}>
           <Grid.Column>
@@ -58,11 +60,10 @@ class ApproveKra extends React.Component {
               <PrettoSlider
                 valueLabelDisplay="auto"
                 aria-label="pretto slider"
-                defaultValue={20}
+                defaultValue={kra.value}
                 onChange={e => {
-                  this.props.addkra({
+                  this.props.UpdatedkraValues({
                     Attributesid: kra._id,
-                    name: kra.name,
                     value: e.target.innerText
                   });
                 }}
@@ -74,40 +75,47 @@ class ApproveKra extends React.Component {
     });
   };
   render() {
-    return (
-      <div style={{ width: "40rem" }}>
-        <div>
-          <Header
-            as="h3"
-            content="Key Result Area"
-            style={style.h1}
-            textAlign="center"
-          />
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {getCurrentMonthAndYear().month}
-            {getCurrentMonthAndYear().year}
-          </div>
-          <div className="container">
-            <Grid>{this.showlist()}</Grid>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              className="ui right floated secondary button"
-              onClick={e => this.props.submitkra(this.props.kraData)}
-            >
-              DONE
-            </Button>
+    if (this.props.kraData) {
+      return (
+        <div style={{ width: "40rem" }}>
+          <div>
+            <Header
+              as="h3"
+              content="Key Result Area"
+              style={style.h1}
+              textAlign="center"
+            />
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {getCurrentMonthAndYear().month}
+              {getCurrentMonthAndYear().year}
+            </div>
+            <div className="container">
+              <Grid>{this.showlist()}</Grid>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                className="ui right floated secondary button"
+                onClick={e => this.props.submitUpdatedKra(this.props.kraData)}
+              >
+                DONE
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return "";
+    }
   }
 }
 
 const mapStateToProps = state => {
   return {
-    kraAttributes: state.auth.user.userdata.kraAttributes,
-    kraData: state.addKra.fillKra
+    kraData: state.kraRequest.updateKraField
   };
 };
-export default connect(mapStateToProps, { editkra, updatekra })(ApproveKra);
+export default connect(mapStateToProps, {
+  updateKra,
+  submitUpdatedKra,
+  UpdatedkraValues
+})(ApproveKra);

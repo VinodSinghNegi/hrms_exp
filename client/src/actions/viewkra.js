@@ -18,19 +18,6 @@ export const addkra = kradata => async dispatch => {
   });
 };
 
-export const editkra = kraSheetId => async dispatch => {
-  console.log(kraSheetId);
-
-  // dispatch({
-  //   type: EDIT_KRA,
-  //   payload: {kraSheet:'kraSheetData'}
-  // });
-};
-
-export const updatekra=kradata=>async dispatch=>{
-  console.log(kradata);
-}
-
 // ACTION WHICH SUBMITS USER FILLED KRA TO BACKEND
 export const submitkra = kradata => async dispatch => {
   const res = await Axios.post("/user/addkra", { kradata });

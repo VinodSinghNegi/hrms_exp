@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,6 +8,10 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import { Button } from "@material-ui/core";
+import { getKraRequest, updateKra } from "../actions/kraRequest";
+import { setCurrentComponent } from "../actions/componentActions";
+import ApproveKra from "../components/approveKra";
 
 const columns = [
   { id: "_id", label: "Employee Code", minWidth: 100 },
@@ -14,25 +19,26 @@ const columns = [
     id: "name",
     label: "Name",
     minWidth: 170,
-    align: "left"
+    align: "center"
   },
   {
     id: "department_id.name",
     label: "Department",
     minWidth: 170,
-    align: "left"
+    align: "center"
+  },
+
+  {
+    id: "kraStatus",
+    label: "Aprooved Status",
+    minWidth: 170,
+    align: "center"
   },
   {
-    id: "designation_id.name",
-    label: "Designation",
+    id: "View",
+    label: "View",
     minWidth: 170,
-    align: "left"
-  },
-  {
-    id: "jobStatus",
-    label: "Status",
-    minWidth: 170,
-    align: "right"
+    align: "center"
   }
 ];
 
@@ -50,8 +56,18 @@ function KraRequest(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
-  const { allusers } = props;
-  console.log("viewusers", allusers);
+  const { kraRequest } = props;
+  const [flag, setFlag] = React.useState(false);
+  const [component, setComponent] = React.useState(null);
+
+  if (flag === false) {
+    props.getKraRequest();
+    setFlag(true);
+  }
+  const viewRequest = (Component, sheetId) => {
+    props.updateKra(sheetId);
+    props.setCurrentComponent(Component);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -62,48 +78,71 @@ function KraRequest(props) {
     setPage(0);
   };
   // props.viewUsers();
-  return (
-    <Paper className={classes.root}>
-      <div className={classes.tableWrapper}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {allusers &&
-              allusers.map((user, i) => (
+  if (kraRequest !== null) {
+    return (
+      <Paper className={classes.root}>
+        <div className={classes.tableWrapper}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map(column => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {kraRequest.kraRequest.map((user, i) => (
                 <TableRow key={i}>
-                  <TableCell>{`${user.prefix}${user._id}`}</TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.department_id.name}</TableCell>
-                  <TableCell>{user.designation_id.name}</TableCell>
-                  <TableCell align="right">{user.jobStatus}</TableCell>
+                  <TableCell align="center">{user.userId._id}</TableCell>
+                  <TableCell align="center">{user.userId.name}</TableCell>
+                  <TableCell align="center">
+                    {user.userId.department_id.name}
+                  </TableCell>
+                  <TableCell align="center">
+                    {user.kraSheet[0].Status}
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      onClick={() => {
+                        viewRequest(<ApproveKra />, user.kraSheet[0]._id);
+                      }}
+                    >
+                      Check
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
-          </TableBody>
-        </Table>
-      </div>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={allusers ? allusers.length : ""}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
-  );
+            </TableBody>
+          </Table>
+        </div>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={kraRequest ? kraRequest.length : ""}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </Paper>
+    );
+  } else {
+    return "";
+  }
 }
+const mapStateToProps = state => ({
+  kraRequest: state.kraRequest,
+  showTab: state.showTab.comp
+});
 
-export default KraRequest;
+export default connect(mapStateToProps, {
+  setCurrentComponent,
+  getKraRequest,
+  updateKra
+})(KraRequest);
