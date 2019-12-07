@@ -67,7 +67,6 @@ function ViewMyTeam(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const { myusers } = props;
-  console.log("viewusers", myusers);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

@@ -1,6 +1,5 @@
 import { DROPDOWN_DATA, FORMDATA, GET_ERRORS } from "./types";
 import Axios from "axios";
-
 export const getDropdown = () => async dispatch => {
   const res = await Axios.get("/getseeds");
   dispatch({
@@ -18,15 +17,14 @@ export const formData = formdata => dispatch => {
 
 export const saveUser = userdata => dispatch => {
   Axios.post('/adduser', {userdata}).then((res)=>{
-    console.log(res.data, 'res from adduser action')
     dispatch({
       type: FORMDATA,
-      payload: null
-    });
-  }).catch(()=>{
+      payload: {error:"success"}
+    })
+  }).catch((e)=>{
     dispatch({
-      type:GET_ERRORS,
-      payload:""
+      type:FORMDATA,
+      payload:{error:"Failed to add user try again !"}
     })
   })
 };

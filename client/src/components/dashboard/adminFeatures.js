@@ -92,7 +92,6 @@ class Adminfeatures extends Component {
   }
 }
 const mapStateToProps = state => {
-  console.log(state)
   return { allusers: state.allusers.all_users 
      ,myteam:state.myteam.myteam
     };

@@ -110,7 +110,7 @@ function KraRequest(props) {
                   <TableCell align="center">
                     <Button
                       onClick={() => {
-                        viewRequest(<ApproveKra />, user.kraSheet[0]._id);
+                        viewRequest(<ApproveKra status={user.kraSheet[0].Status}/>, user.kraSheet[0]._id);
                       }}
                     >
                       Check

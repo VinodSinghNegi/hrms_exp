@@ -18,6 +18,8 @@ import Preview from "./preview";
 import { saveUser } from "../actions/adduser";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import {setCurrentComponent} from '../actions/componentActions';
+import Alluser from '../components/viewUser'
 
 const useQontoStepIconStyles = makeStyles({
   root: {
@@ -160,15 +162,18 @@ function getSteps() {
 }
 
 function CustomizedSteppers(props) {
-  const {
+  const [flag, setflag]=React.useState(false)
+  let {
     name,
     email,
     gender,
     selectedDepartment,
     selectedDesignation,
     selectedkraAttributes,
-    selectedreportingManager
-  } = props;
+    selectedreportingManager,
+    error
+  } = props.addUserForm;
+
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -217,7 +222,6 @@ function CustomizedSteppers(props) {
           setActiveStep(prevActiveStep => prevActiveStep + 1);
         }
       } else {
-        console.log("in else");
         setActiveStep(prevActiveStep => prevActiveStep + 1);
       }
     }
@@ -228,7 +232,6 @@ function CustomizedSteppers(props) {
   };
 
   onsubmit = () => {
-    console.log("in submit");
     props.saveUser({
     name: name,
     email: email,
@@ -238,7 +241,6 @@ function CustomizedSteppers(props) {
     reportingManager: selectedreportingManager,
     kraAttributes: selectedkraAttributes
     })
-    // return <div><p> USER SAVED SUCCESSFULLY </p></div>
   };
   return (
     <Paper className={classes.root}>
@@ -256,16 +258,7 @@ function CustomizedSteppers(props) {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          // props.saveUser({
-          // name: name,
-          // email: email,
-          // gender: gender,
-          // department_id: selectedDepartment,
-          // designation_id: selectedDesignation,
-          // reportingManager: selectedreportingManager,
-          // kraAttributes: selectedkraAttributes
-          // })
-          "onsubmit()"
+          <div><p>{error}</p></div>
         ) : (
           <div>
             <div className={classes.instructions}>
@@ -298,26 +291,11 @@ function CustomizedSteppers(props) {
 }
 
 const mapStateToProps = state => {
-  const {
-    name,
-    email,
-    gender,
-    selectedDepartment,
-    selectedDesignation,
-    selectedreportingManager,
-    selectedkraAttributes
-  } = state.addUserForm;
   return {
-    name,
-    email,
-    gender,
-    selectedDepartment,
-    selectedDesignation,
-    selectedreportingManager,
-    selectedkraAttributes
-  };
+    addUserForm:state.addUserForm
+  }
 };
 
-export default connect(mapStateToProps, { saveUser })(
+export default connect(mapStateToProps, { saveUser, setCurrentComponent })(
   withRouter(CustomizedSteppers)
 );

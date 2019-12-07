@@ -29,7 +29,6 @@ export class OfficialDetails extends React.Component {
   };
 
   render() {
-    console.log(this.state, this.props.addUserForm.reportingManager);
     const {
       designation,
       department,

@@ -7,6 +7,7 @@ var initialState={
     name:"",
     email:"",
     gender:"",
+    error:"",
     selectedDepartment:{},
     selectedDesignation:{},
     selectedreportingManager:{},
