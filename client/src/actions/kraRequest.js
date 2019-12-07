@@ -3,6 +3,7 @@ import { KRA_REQUEST, UPDATE_KRA, UPDATED_NEW_KRA_VALUES } from "./types";
 var response = null;
 export const getKraRequest = () => async dispatch => {
   const res = await Axios.get("/manager/viewkra");
+  console.log(res.data);
   dispatch({
     type: KRA_REQUEST,
     payload: res.data
@@ -24,21 +25,22 @@ export const UpdatedkraValues = kradata => async dispatch => {
   const upid = kradata.Attributesid;
   const upvalue = kradata.value;
 
-  var changeValue = response.kraSheet[0].kraAttributes.map(element => {
+  var changeValue = response.cleanValue.map(element => {
     if (element._id == upid) {
       element.value = upvalue;
     }
     return element;
   });
-  console.log(changeValue);
-  console.log(response);
-
+  const updatedValues = { cleanValue: changeValue, _id: response._id };
   dispatch({
     type: UPDATE_KRA,
-    payload: changeValue
+    payload: updatedValues
   });
 };
 
-export const submitUpdatedKra = (kraData, kraSheetId) => async dispatch => {
-  console.log("in sub", kraData, kraSheetId);
+export const submitUpdatedKra = kraData => async dispatch => {
+  const res = await Axios.post("/manager/updatekra", {
+    kraAttributes: kraData.cleanValue,
+    krasheetId: kraData._id
+  })
 };

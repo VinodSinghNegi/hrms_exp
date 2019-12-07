@@ -51,20 +51,22 @@ const PrettoSlider = withStyles({
 
 class ApproveKra extends React.Component {
   showlist = () => {
-    return this.props.kraData.kraSheet[0].kraAttributes.map(kra => {
+    return this.props.kraData.cleanValue.map(kra => {
       return (
         <Grid.Row key={kra._id}>
           <Grid.Column>
             <Segment>
               {kra.name}
-              <PrettoSlider
-                valueLabelDisplay="auto"
-                aria-label="pretto slider"
+              <input
+              disabled={this.props.Status==='Approved'?true:false}
+                type="number"
+                min={0}
+                max={100}
                 defaultValue={kra.value}
                 onChange={e => {
                   this.props.UpdatedkraValues({
                     Attributesid: kra._id,
-                    value: e.target.innerText
+                    value: e.target.value
                   });
                 }}
               />
@@ -75,6 +77,7 @@ class ApproveKra extends React.Component {
     });
   };
   render() {
+    console.log(this.props.Status)
     if (this.props.kraData) {
       return (
         <div style={{ width: "40rem" }}>
@@ -94,6 +97,7 @@ class ApproveKra extends React.Component {
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
+                disabled={this.props.Status==='Approved'?true:false}
                 className="ui right floated secondary button"
                 onClick={e => this.props.submitUpdatedKra(this.props.kraData)}
               >
@@ -112,6 +116,7 @@ class ApproveKra extends React.Component {
 const mapStateToProps = state => {
   return {
     kraData: state.kraRequest.updateKraField
+    ,Status:state.kraRequest.kraRequest[0].kraSheet[0].Status
   };
 };
 export default connect(mapStateToProps, {

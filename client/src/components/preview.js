@@ -43,8 +43,8 @@ class Preview extends Component {
             </tr>
             <tr style={{ fontSize: "15px", fontWeight: "bold" }}>
               <th scope="row">KRA Attributes</th>
-              {selectedkraAttributes.map((kra)=>{
-                return <tr key={kra._id}>{kra.name}</tr>
+              {selectedkraAttributes.map(kra => {
+                return <td key={kra._id}>{kra.name}</td>;
               })}
             </tr>
           </tbody>
@@ -56,7 +56,7 @@ class Preview extends Component {
 
 const mapStateToProps = state => {
   return {
-    addUserForm:state.addUserForm
+    addUserForm: state.addUserForm
   };
 };
 

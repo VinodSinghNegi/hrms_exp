@@ -6,12 +6,15 @@ import PeopleIcon from "@material-ui/icons/People";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import NotificationImportantIcon from "@material-ui/icons/NotificationImportant";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { setCurrentComponent } from "../../actions/componentActions";
 import { connect } from "react-redux";
 import Myprofile from "../myprofile";
 import AddUser from "../addUser";
 import ViewUsers from "../viewUser";
+import ViewMyTeam from "../viewMyTeam"
 import { viewUsers } from "../../actions/viewUser";
+import {viewMyTeam} from "../../actions/viewMyTeam";
 import KraRequest from "../kraRequest";
 
 class Adminfeatures extends Component {
@@ -21,10 +24,11 @@ class Adminfeatures extends Component {
   };
   componentDidMount() {
     this.props.viewUsers();
+    this.props.viewMyTeam();
   }
   render() {
     const { allusers } = this.props;
-
+    const {myteam}=this.props;
     return (
       <div>
         <ListItem
@@ -52,6 +56,17 @@ class Adminfeatures extends Component {
         <ListItem
           button
           onClick={() => {
+            this.renderComponent(< ViewMyTeam myusers={myteam}/>);
+          }}
+        >
+          <ListItemIcon>
+            <GroupWorkIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Team" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() => {
             this.renderComponent(<ViewUsers allusers={allusers} />);
           }}
         >
@@ -60,10 +75,11 @@ class Adminfeatures extends Component {
           </ListItemIcon>
           <ListItemText primary="View All" />
         </ListItem>
+        
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<KraRequest/>);
+            this.renderComponent(<KraRequest />);
           }}
         >
           <ListItemIcon>
@@ -76,9 +92,12 @@ class Adminfeatures extends Component {
   }
 }
 const mapStateToProps = state => {
-  return { allusers: state.allusers.all_users };
+  console.log(state)
+  return { allusers: state.allusers.all_users 
+     ,myteam:state.myteam.myteam
+    };
 };
 
-export default connect(mapStateToProps, { setCurrentComponent, viewUsers })(
+export default connect(mapStateToProps, { setCurrentComponent,viewMyTeam, viewUsers })(
   Adminfeatures
 );

@@ -6,6 +6,7 @@ import addUser from "./addUser";
 import addKra from "./addKra";
 import kraRequest from "./kraRequestReducer";
 import viewUsers from "./viewUsers";
+import viewMyteam from "./viewMyTeam";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   showTab: componentReducer,
   kraRequest: kraRequest,
   errors: errorReducer,
-  allusers: viewUsers
+  allusers: viewUsers,
+  myteam: viewMyteam
 });

@@ -124,7 +124,7 @@ function KraRequest(props) {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={kraRequest ? kraRequest.length : ""}
+          count={kraRequest ? kraRequest.kraRequest.length :0}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

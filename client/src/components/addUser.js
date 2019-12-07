@@ -16,6 +16,7 @@ import BasicDetails from "./basicDetails";
 import Preview from "./preview";
 import { saveUser } from "../actions/adduser";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const useQontoStepIconStyles = makeStyles({
   root: {
@@ -207,7 +208,16 @@ function CustomizedSteppers(props) {
 
   const handleNext = () => {
     if (validator()) {
-      setActiveStep(prevActiveStep => prevActiveStep + 1);
+      if (activeStep === 2) {
+        const res = window.confirm("Are you sure that you want to submit ?");
+        if (res) {
+          onsubmit();
+          setActiveStep(prevActiveStep => prevActiveStep + 1);
+        }
+      } else {
+        console.log("in else");
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+      }
     }
   };
 
@@ -215,6 +225,19 @@ function CustomizedSteppers(props) {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
+  onsubmit = () => {
+    console.log("in submit");
+    props.saveUser({
+    name: name,
+    email: email,
+    gender: gender,
+    department_id: selectedDepartment,
+    designation_id: selectedDesignation,
+    reportingManager: selectedreportingManager,
+    kraAttributes: selectedkraAttributes
+    })
+    // return <div><p> USER SAVED SUCCESSFULLY </p></div>
+  };
   return (
     <div className={classes.root}>
       <Stepper
@@ -230,15 +253,16 @@ function CustomizedSteppers(props) {
       </Stepper>
       <div>
         {activeStep === steps.length ? (
-          props.saveUser({
-            name: name,
-            email: email,
-            gender: gender,
-            department_id: selectedDepartment,
-            designation_id: selectedDesignation,
-            reportingManager: selectedreportingManager,
-            kraAttributes: selectedkraAttributes
-          })
+          // props.saveUser({
+          // name: name,
+          // email: email,
+          // gender: gender,
+          // department_id: selectedDepartment,
+          // designation_id: selectedDesignation,
+          // reportingManager: selectedreportingManager,
+          // kraAttributes: selectedkraAttributes
+          // })
+          "onsubmit()"
         ) : (
           <div>
             <div className={classes.instructions}>
@@ -290,4 +314,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { saveUser })(CustomizedSteppers);
+export default connect(mapStateToProps, { saveUser })(
+  withRouter(CustomizedSteppers)
+);

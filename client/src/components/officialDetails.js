@@ -6,16 +6,34 @@ import { connect } from "react-redux";
 import { formData, getDropdown } from "../actions/adduser";
 
 export class OfficialDetails extends React.Component {
+  state = { reportingManager: [] };
   componentDidMount() {
     this.props.getDropdown();
   }
 
+  filterRM = async design => {
+    await this.setState({
+      reportingManager: this.props.addUserForm.reportingManager
+    });
+    if (design.name == "Manager") {
+      const arr = this.state.reportingManager.filter(rm => {
+        return rm.name === "CEO" ? true : false;
+      });
+      await this.setState({ reportingManager: arr });
+    } else if (design.name == "Employee/Team Lead") {
+      const arr = this.state.reportingManager.filter(rm => {
+        return rm.name !== "CEO" ? true : false;
+      });
+      await this.setState({ reportingManager: arr });
+    }
+  };
+
   render() {
+    console.log(this.state, this.props.addUserForm.reportingManager);
     const {
       designation,
       department,
       kraAttributes,
-      reportingManager,
       selectedDepartment,
       selectedDesignation,
       selectedreportingManager,
@@ -37,9 +55,10 @@ export class OfficialDetails extends React.Component {
             labelField="name"
             valueField="name"
             options={designation}
-            onChange={value =>
-              this.props.formData({ selectedDesignation: value[0] })
-            }
+            onChange={value => {
+              this.props.formData({ selectedDesignation: value[0] });
+              this.filterRM(value[0]);
+            }}
             noDataLabel="No matches found"
           />
         </div>
@@ -58,9 +77,9 @@ export class OfficialDetails extends React.Component {
             valueField="name"
             options={department}
             keepSelectedInList={true}
-            onChange={value =>
-              this.props.formData({ selectedDepartment: value[0] })
-            }
+            onChange={value => {
+              this.props.formData({ selectedDepartment: value[0] });
+            }}
             noDataLabel="No matches found"
           />
         </div>
@@ -77,7 +96,7 @@ export class OfficialDetails extends React.Component {
             values={[selectedreportingManager]}
             labelField="name"
             valueField="name"
-            options={reportingManager}
+            options={this.state.reportingManager}
             keepSelectedInList={true}
             onChange={value =>
               this.props.formData({ selectedreportingManager: value[0] })
@@ -117,8 +136,8 @@ const StyledSelect = styled(Select)`
   ${({ dropdownRenderer }) =>
     dropdownRenderer &&
     `.react-dropdown-select-dropdown {
-      overflow: initial;
-    }`}
+overflow: initial;
+}`}
 `;
 
 const mapStateToProps = state => {

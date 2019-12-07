@@ -1,7 +1,5 @@
 const KraSheetModel = require("../krasheetmodel");
 const viewkramanager = async (req, res) => {
-  console.log("in viewkramanager");
-
   try {
     // let kra=await KraSheetModel.find({"reportingManagerId":req._id,"kraSheet.Status":"Not Approved"},{"kraSheet.$":1}).select("-_id")
     let kra = await KraSheetModel.find(
@@ -22,20 +20,19 @@ const viewkramanager = async (req, res) => {
       .select("-_id -kraSheet.kraAttributes -__v");
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
-    kra2 = kra2.map(e => {
-      console.log(e.kraSheet[0].date.getMonth() == month);
-
-      if (
-        e.kraSheet[0].date.getMonth() == month &&
-        e.kraSheet[0].date.getFullYear() == year
-      ) {
-        e.kraSheet.splice(1);
-        console.log(e);
-
-        return e;
+    kra2=kra2.filter(e=>{
+      console.log(e.kraSheet[0].date.getMonth()==month);
+      
+      if(e.kraSheet[0].date.getMonth()==month && e.kraSheet[0].date.getFullYear()==year ){
+          e.kraSheet.splice(1)
+          
+          
+          return true
       }
-    });
-    console.log("kra2", kra2);
+      else{
+        return false
+      }
+  })
 
     if (!kra2) {
       return res.status(400).send("No Kra found");
