@@ -17,10 +17,10 @@ const addUser = async (req, res, next) => {
 
     const user = new User(newUser);
     await user.save();
-    res.send({ user });
+    res.send({msg:'successfully saved user'});
   } catch (e) {
     console.log(e.message);
-    return res.status(500).send("server error");
+    return res.status(500).send({msg:e.message});
   }
 };
 

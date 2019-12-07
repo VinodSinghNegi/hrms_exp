@@ -6,6 +6,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import InsertCommentIcon from "@material-ui/icons/InsertComment";
 import { setCurrentComponent } from "../../actions/componentActions";
 import { connect } from "react-redux";
+import PageviewIcon from "@material-ui/icons/Pageview";
 import FillKra from "../fillkra";
 import Myprofile from "../myprofile";
 import ViewKra from "../viewkra";
@@ -39,6 +40,17 @@ class Employee extends Component {
             <InsertCommentIcon />
           </ListItemIcon>
           <ListItemText primary="Fill KRA" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() => {
+            this.renderComponent(<ViewKra />);
+          }}
+        >
+          <ListItemIcon>
+            <PageviewIcon />
+          </ListItemIcon>
+          <ListItemText primary="All KRA" />
         </ListItem>
       </div>
     );

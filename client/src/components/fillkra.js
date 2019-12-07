@@ -4,9 +4,14 @@ import Slider from "@material-ui/core/Slider";
 import { withStyles } from "@material-ui/core/styles";
 import getCurrentMonthAndYear from "./utils/getCurrentMonthAndYear";
 import { connect } from "react-redux";
+import Paper from "@material-ui/core/Paper";
 import { addkra, submitkra } from "../actions/viewkra";
 
 const style = {
+  h1:{
+  fontFamily:"Times New Roman",
+  fontWeight:"bolder"
+  },
   h3: {
     marginTop: "2em",
     padding: "2em 0em"
@@ -16,7 +21,7 @@ const PrettoSlider = withStyles({
   root: {
     color: "#ff0000",
     height: 8,
-    width: 150,
+    width: 100,
     float: "right"
   },
   thumb: {
@@ -44,6 +49,9 @@ const PrettoSlider = withStyles({
   }
 })(Slider);
 
+
+
+
 class FillKRA extends React.Component {
   showlist = () => {
     return this.props.kraAttributes.map(kra => {
@@ -68,7 +76,8 @@ class FillKRA extends React.Component {
   };
   render() {
     return (
-      <div style={{ width: "40rem" }}>
+      <Paper style={{padding:"10px"}}>
+      {/* <div style={{ width: "40rem" }}> */}
         <div>
           <Header
             as="h3"
@@ -80,19 +89,20 @@ class FillKRA extends React.Component {
             {getCurrentMonthAndYear().month}
             {getCurrentMonthAndYear().year}
           </div>
-          <div className="container">
+          <div className="container" >
             <Grid>{this.showlist()}</Grid>
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+ 
             <Button
               className="ui right floated secondary button"
               onClick={e => this.props.submitkra(this.props.kraData)}
-            >
+            style={{marginTop:"15px",marginRight:"30px"}}>
               DONE
             </Button>
-          </div>
+        
         </div>
-      </div>
+      {/* </div> */}
+      </Paper>
     );
   }
 };

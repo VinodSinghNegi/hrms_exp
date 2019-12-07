@@ -24,6 +24,9 @@ export default function(state = initialState, action) {
         kraAttributes:action.payload.kraAttributes
       };
     case FORMDATA:{
+      if(action.payload===null){
+        return initialState
+      }
       return {
         ...state, 
         [Object.keys(action.payload)]:action.payload[Object.keys(action.payload)]

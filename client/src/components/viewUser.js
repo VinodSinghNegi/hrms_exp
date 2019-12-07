@@ -7,12 +7,19 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import { Avatar } from "@material-ui/core";
 
 const columns = [
   { id: "_id", label: "Employee Code", minWidth: 100 },
   {
     id: "name",
     label: "Name",
+    minWidth: 170,
+    align: "left"
+  },
+  {
+    id: "gender",
+    label: "Gender",
     minWidth: 170,
     align: "left"
   },
@@ -43,6 +50,16 @@ const useStyles = makeStyles({
   tableWrapper: {
     maxHeight: 440,
     overflow: "auto"
+  },
+  red: {
+    color: "#fff",
+    float: "right",
+    backgroundColor: "#ff0000"
+  },
+  green: {
+    color: "#fff",
+    float: "right",
+    backgroundColor: "#1b5e20"
   }
 });
 
@@ -85,9 +102,19 @@ function ViewUsers(props) {
                 <TableRow key={i}>
                   <TableCell>{`${user.prefix}${user._id}`}</TableCell>
                   <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.gender}</TableCell>
                   <TableCell>{user.department_id.name}</TableCell>
                   <TableCell>{user.designation_id.name}</TableCell>
-                  <TableCell align="right">{user.jobStatus}</TableCell>
+                  <TableCell align="right">
+                    {" "}
+                    {user.jobStatus === "working" ? (
+                      <Avatar className={classes.green}>W</Avatar>
+                    ) : user.jobStatus === "abscond" ? (
+                      <Avatar className={classes.red}>A</Avatar>
+                    ) : (
+                      ""
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

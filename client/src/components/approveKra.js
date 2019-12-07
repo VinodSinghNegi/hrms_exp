@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Header, Segment, Button } from "semantic-ui-react";
 import Slider from "@material-ui/core/Slider";
 import { withStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
 import getCurrentMonthAndYear from "./utils/getCurrentMonthAndYear";
 import { connect } from "react-redux";
 import {
@@ -12,42 +13,15 @@ import {
 // import {UpdatedkraValues} from '../actions/viewkra';
 
 const style = {
+  h1:{
+    fontFamily:"Times New Roman",
+    fontWeight:"bolder"
+    },
   h3: {
     marginTop: "2em",
     padding: "2em 0em"
   }
 };
-const PrettoSlider = withStyles({
-  root: {
-    color: "#ff0000",
-    height: 8,
-    width: 150,
-    float: "right"
-  },
-  thumb: {
-    height: 24,
-    width: 24,
-    backgroundColor: "#fff",
-    border: "2px solid currentColor",
-    marginTop: -8,
-    marginLeft: -12,
-    "&:focus,&:hover,&$active": {
-      boxShadow: "inherit"
-    }
-  },
-  active: {},
-  valueLabel: {
-    left: "calc(-50% + 4px)"
-  },
-  track: {
-    height: 8,
-    borderRadius: 4
-  },
-  rail: {
-    height: 8,
-    borderRadius: 4
-  }
-})(Slider);
 
 class ApproveKra extends React.Component {
   showlist = () => {
@@ -56,7 +30,7 @@ class ApproveKra extends React.Component {
         <Grid.Row key={kra._id}>
           <Grid.Column>
             <Segment>
-              {kra.name}
+             {kra.name}
               <input
               disabled={this.props.Status==='Approved'?true:false}
                 type="number"
@@ -69,6 +43,7 @@ class ApproveKra extends React.Component {
                     value: e.target.value
                   });
                 }}
+                style={{float:"right"}}
               />
             </Segment>
           </Grid.Column>
@@ -80,7 +55,7 @@ class ApproveKra extends React.Component {
     console.log(this.props.Status)
     if (this.props.kraData) {
       return (
-        <div style={{ width: "40rem" }}>
+        <Paper style={{padding:"10px"}}>
           <div>
             <Header
               as="h3"
@@ -92,20 +67,19 @@ class ApproveKra extends React.Component {
               {getCurrentMonthAndYear().month}
               {getCurrentMonthAndYear().year}
             </div>
-            <div className="container">
+            <div className="container" >
               <Grid>{this.showlist()}</Grid>
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 disabled={this.props.Status==='Approved'?true:false}
                 className="ui right floated secondary button"
                 onClick={e => this.props.submitUpdatedKra(this.props.kraData)}
-              >
+                style={{marginTop:"15px",marginRight:"30px"}}>
                 DONE
               </Button>
-            </div>
+        
           </div>
-        </div>
+    </Paper>
       );
     } else {
       return "";

@@ -1,4 +1,4 @@
-import { DROPDOWN_DATA, FORMDATA } from "./types";
+import { DROPDOWN_DATA, FORMDATA, GET_ERRORS } from "./types";
 import Axios from "axios";
 
 export const getDropdown = () => async dispatch => {
@@ -17,5 +17,16 @@ export const formData = formdata => dispatch => {
 };
 
 export const saveUser = userdata => dispatch => {
-  const res=Axios.post('/adduser', {userdata});
+  Axios.post('/adduser', {userdata}).then((res)=>{
+    console.log(res.data, 'res from adduser action')
+    dispatch({
+      type: FORMDATA,
+      payload: null
+    });
+  }).catch(()=>{
+    dispatch({
+      type:GET_ERRORS,
+      payload:""
+    })
+  })
 };

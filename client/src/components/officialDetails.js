@@ -64,6 +64,7 @@ export class OfficialDetails extends React.Component {
         </div>
         <br />
         <div style={{ maxWidth: "350px", margin: "0 auto" }}>
+          Department
           <StyledSelect
             placeholder={selectedDepartment.name || "Department"}
             color="orange"
@@ -85,6 +86,7 @@ export class OfficialDetails extends React.Component {
         </div>
         <br />
         <div style={{ maxWidth: "350px", margin: "0 auto" }}>
+          Reporting Manager
           <StyledSelect
             placeholder={selectedreportingManager.name || "Reporting Manager"}
             color="orange"
@@ -106,6 +108,7 @@ export class OfficialDetails extends React.Component {
         </div>
         <br />
         <div style={{ maxWidth: "350px", margin: "0 auto" }}>
+          Kra Attributes
           <StyledSelect
             placeholder="KraAttributes"
             color="orange"

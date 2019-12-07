@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -142,7 +143,8 @@ ColorlibStepIcon.propTypes = {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "70%"
+    width: "90%",
+    padding:"10px"
   },
   button: {
     marginRight: theme.spacing(1)
@@ -239,6 +241,7 @@ function CustomizedSteppers(props) {
     // return <div><p> USER SAVED SUCCESSFULLY </p></div>
   };
   return (
+    <Paper className={classes.root}>
     <div className={classes.root}>
       <Stepper
         alternativeLabel
@@ -290,6 +293,7 @@ function CustomizedSteppers(props) {
         )}
       </div>
     </div>
+    </Paper>
   );
 }
 

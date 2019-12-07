@@ -15,7 +15,7 @@ class Preview extends Component {
     } = this.props.addUserForm;
     return (
       <>
-        <table className="table table-sm">
+        <table className="table table-sm" border="solid 0.1px black">
           <tbody>
             <tr style={{ fontSize: "15px", fontWeight: "bold" }}>
               <th scope="row">Name</th>
@@ -42,10 +42,14 @@ class Preview extends Component {
               <td>{selectedreportingManager.name}</td>
             </tr>
             <tr style={{ fontSize: "15px", fontWeight: "bold" }}>
-              <th scope="row">KRA Attributes</th>
-              {selectedkraAttributes.map(kra => {
-                return <td key={kra._id}>{kra.name}</td>;
-              })}
+              <th scope="row" rowSpan={10}>
+                KRA Attributes
+              </th>
+              <td>
+                {selectedkraAttributes.map(kra => {
+                  return <li style={{listStyleType:"none"}} key={kra.name}>{kra.name}</li>
+                })}
+              </td>
             </tr>
           </tbody>
         </table>

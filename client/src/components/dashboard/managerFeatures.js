@@ -15,6 +15,7 @@ import ViewKra from "../viewkra";
 import ViewMyTeam from "../viewMyTeam"
 import {viewMyTeam} from "../../actions/viewMyTeam";
 import KraRequest from "../kraRequest";
+
 class ManagerFeatures extends Component {
   state = {};
   renderComponent = Component => {
