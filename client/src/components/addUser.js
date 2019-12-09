@@ -191,25 +191,25 @@ function CustomizedSteppers(props) {
   const steps = getSteps();
 
   const validator = () => {
-    // if (activeStep === 0) {
-    //   if (name.length < 1 || email.length < 1 || gender.length < 1) {
-    //     alert("please fill all fields");
-    //     return false;
-    //   } else if (!/^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-    //     alert("please fill a valid email");
-    //     return false;
-    //   }
-    // } else if (activeStep === 1) {
-    //   if (
-    //     selectedDepartment.name === undefined ||
-    //     selectedDesignation.name === undefined ||
-    //     selectedkraAttributes[0] === undefined ||
-    //     selectedreportingManager === undefined
-    //   ) {
-    //     alert("please choose all fields");
-    //     return false;
-    //   }
-    // }
+    if (activeStep === 0) {
+      if (name.length < 1 || email.length < 1 || gender.length < 1) {
+        alert("please fill all fields");
+        return false;
+      } else if (!/^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        alert("please fill a valid email");
+        return false;
+      }
+    } else if (activeStep === 1) {
+      if (
+        selectedDepartment.name === undefined ||
+        selectedDesignation.name === undefined ||
+        selectedkraAttributes[0] === undefined ||
+        selectedreportingManager === undefined
+      ) {
+        alert("please choose all fields");
+        return false;
+      }
+    }
     return true;
   };
 
