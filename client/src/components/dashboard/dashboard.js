@@ -13,16 +13,17 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-
+import Badge from "@material-ui/core/Badge";
 import PropTypes from "prop-types";
 import { logoutUser } from "../../actions/authAction";
 import Adminfeatures from "./adminFeatures";
 import Managerfeatures from "./managerFeatures";
 import Employeefeatures from "./employeeFeatures";
-
+import Popover from "@material-ui/core/Popover";
+import Notification from "../notification";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
@@ -68,6 +69,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1
   },
+  
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
@@ -107,6 +109,9 @@ const useStyles = makeStyles(theme => ({
   },
   fixedHeight: {
     height: 240
+  },
+  typography: {
+    padding: theme.spacing(2)
   }
 }));
 
@@ -116,7 +121,7 @@ function Dashboard(props) {
   const [designation, setDesignation] = React.useState(null);
   const [component, setComponent] = React.useState(null);
   const [flag, setFlag] = React.useState(false);
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
   if (flag === false) {
     setDesignation(props.auth.user.userdata.designation_id.name);
     if (designation === "Admin") {
@@ -138,10 +143,22 @@ function Dashboard(props) {
     setOpen(false);
   };
 
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const onLogoutClick = e => {
     e.preventDefault();
     props.logoutUser();
   };
+
+  const notiopen = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -171,7 +188,38 @@ function Dashboard(props) {
           >
             Dashboard
           </Typography>
-
+          <IconButton
+            color="inherit"
+            aria-describedby={id}
+            variant="contained"
+            onClick={handleClick}
+            className={classes.notification}
+          >
+            <Badge
+              badgeContent={props.auth.user.notificationLength}
+              color="secondary"
+            >
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <Popover
+            id={id}
+            open={notiopen}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center"
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center"
+            }}
+          >
+            <Typography className={classes.typography}>
+              <Notification />
+            </Typography>
+          </Popover>
           <Button
             color="inherit"
             onClick={e => {

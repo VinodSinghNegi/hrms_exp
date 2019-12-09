@@ -1,5 +1,9 @@
 import Axios from "axios";
 import { KRA_REQUEST, UPDATE_KRA, UPDATED_NEW_KRA_VALUES } from "./types";
+import { setCurrentComponent } from "./componentActions";
+import KraRequest from '../components/kraRequest';
+import React from 'react'
+
 var response = null;
 export const getKraRequest = () => async dispatch => {
   const res = await Axios.get("/manager/viewkra");
@@ -38,9 +42,11 @@ export const UpdatedkraValues = kradata => async dispatch => {
   });
 };
 
-export const submitUpdatedKra = kraData => async dispatch => {
+export const submitUpdatedKra = (kraData, userid) => async dispatch => {
   const res = await Axios.post("/manager/updatekra", {
     kraAttributes: kraData.cleanValue,
-    krasheetId: kraData._id
+    krasheetId: kraData._id,
+    userId:userid
   })
+  dispatch(setCurrentComponent(<KraRequest/>))
 };

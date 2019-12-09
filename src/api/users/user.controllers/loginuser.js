@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../../../config/keys");
 const validateLoginInput = require("../../../../validation/login");
 const user = require("../../users/user.model");
+const Notification =require('../../notification/notification.model')
 
 const login = async (req, res) => {
   // Form validation
@@ -33,6 +34,7 @@ const login = async (req, res) => {
         const payload = {
           userdata: { _id: user2._id }
         };
+        const length=await Notification.find({to:user2._id}).count()
         // Sign token
         jwt.sign(
           payload,
@@ -44,7 +46,8 @@ const login = async (req, res) => {
             res.json({
               success: true,
               token: "Bearer " + token,
-              userdata: user2
+              userdata: user2,
+              NotificationNumber:length
             });
             user2.token=token;
             user2.save();

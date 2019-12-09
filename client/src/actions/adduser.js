@@ -1,5 +1,8 @@
 import { DROPDOWN_DATA, FORMDATA, GET_ERRORS } from "./types";
 import Axios from "axios";
+import { setCurrentComponent } from "./componentActions";
+import Alluser from '../components/viewUser';
+import React from 'react'
 export const getDropdown = () => async dispatch => {
   const res = await Axios.get("/getseeds");
   dispatch({
@@ -18,13 +21,10 @@ export const formData = formdata => dispatch => {
 export const saveUser = userdata => dispatch => {
   Axios.post('/adduser', {userdata}).then((res)=>{
     dispatch({
-      type: FORMDATA,
-      payload: {error:"success"}
-    })
-    dispatch({
       type:FORMDATA,
       payload:null
     })
+    dispatch(setCurrentComponent(<Alluser/>))
   }).catch((e)=>{
     dispatch({
       type:FORMDATA,

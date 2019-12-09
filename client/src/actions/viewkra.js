@@ -1,5 +1,8 @@
 import { VIEW_KRA, ADD_KRA, EDIT_KRA } from "./types";
 import Axios from "axios";
+import React from 'react';
+import {setCurrentUser} from './authAction';
+import Profile from '../components/myprofile';
 
 // ACTION WHICH GETS ALL THE KRA SHEETS OF USER
 export const viewkra = year => async dispatch => {
@@ -22,4 +25,5 @@ export const addkra = kradata => async dispatch => {
 export const submitkra = kradata => async dispatch => {
   const res = await Axios.post("/user/addkra", { kradata });
   console.log(res.data);
+  dispatch(setCurrentUser(null))
 };

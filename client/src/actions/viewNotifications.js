@@ -1,12 +1,10 @@
-import { VIEW_NOTIFICATIONS } from "./types";
+import { GET_NOTIFICATIONS} from "./types";
+import Axios from "axios";
 
-export const notifications = () => async dispatch => {
-    // await Axios.get(`/manager/viewkrauser/${sheetId}`).then(res => {
-    //   response = res.data;
-    //   dispatch({
-    //     type: VIEW_NOTIFICATIONS,
-    //     payload: response
-    //   });
-    // });
-    console.log('in ')
-  };
+export const getNotifications = () => async dispatch => {
+    const res = await Axios.get(`/getnotification`);
+    dispatch({
+        type: GET_NOTIFICATIONS,
+        payload: res.data
+    });
+};

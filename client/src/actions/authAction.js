@@ -5,13 +5,11 @@ import {
   GET_ERRORS,
   SET_CURRENT_USER,
   USER_LOADING,
-  SET_CURRENT_COMPONENT,
-  ADD_KRA,
-  VIEW_KRA,
-  DROPDOWN_DATA,
-  FORMDATA
+  SET_CURRENT_COMPONENT
 } from "./types";
 import { setCurrentComponent } from "./componentActions";
+import Profile from "../components/myprofile";
+import React from "react";
 // Login - get user token
 export const loginUser = userData => dispatch => {
   axios
@@ -19,14 +17,21 @@ export const loginUser = userData => dispatch => {
     .then(res => {
       // Save to localStorage
       // // Set token to localStorage
-      const { token, userdata } = res.data;
+      const { token, userdata, NotificationNumber } = res.data;
 
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
       setAuthToken(token);
+
       // Decode token to get user data
       // Set current user
-      dispatch(setCurrentUser({ userdata: userdata }));
+      dispatch(
+        setCurrentUser({
+          userdata: userdata,
+          notificationLength: NotificationNumber
+        })
+      );
+      dispatch(setCurrentComponent(<Profile />));
     })
     .catch(err => {
       console.log(err);
@@ -47,7 +52,14 @@ export const setCurrentUser = decoded => dispatch => {
     axios
       .get("/getuserdata")
       .then(res => {
-        dispatch(setCurrentUser({ userdata: res.data }));
+        const { userdata, NotificationNumber } = res.data;
+        dispatch(
+          setCurrentUser({
+            userdata: userdata,
+            notificationLength: NotificationNumber
+          })
+        );
+        dispatch(setCurrentComponent(<Profile />));
       })
       .catch(err => {
         console.log(err);
@@ -67,13 +79,13 @@ export const setUserLoading = () => {
 // Log user out
 export const logoutUser = () => async dispatch => {
   // Remove token from local storage
-  axios.get('/logout');
+  axios.get("/logout");
   localStorage.removeItem("jwtToken");
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
-  
+
   dispatch({
     type: SET_CURRENT_COMPONENT,
     payload: null

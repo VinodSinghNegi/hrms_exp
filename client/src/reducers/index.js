@@ -7,6 +7,7 @@ import addKra from "./addKra";
 import kraRequest from "./kraRequestReducer";
 import viewUsers from "./viewUsers";
 import viewMyteam from "./viewMyTeam";
+import getnotification from './notifications'
 
 export default combineReducers({
   auth: authReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   kraRequest: kraRequest,
   errors: errorReducer,
   allusers: viewUsers,
-  myteam: viewMyteam
+  myteam: viewMyteam,
+  getnotification:getnotification
 });

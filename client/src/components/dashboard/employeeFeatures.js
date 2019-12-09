@@ -10,8 +10,15 @@ import PageviewIcon from "@material-ui/icons/Pageview";
 import FillKra from "../fillkra";
 import Myprofile from "../myprofile";
 import ViewKra from "../viewkra";
+
 class Employee extends Component {
-  state = {};
+  state = { disabled: true };
+  componentDidMount() {
+    const d = new Date().getDate();
+    if ((d >= 25 && d <= 30) && !this.props.kraStatus) {
+      this.setState({ disabled: false });
+    }
+  }
   renderComponent = Component => {
     this.props.setCurrentComponent(Component);
   };
@@ -31,6 +38,7 @@ class Employee extends Component {
         </ListItem>
 
         <ListItem
+          disabled={this.state.disabled}
           button
           onClick={() => {
             this.renderComponent(<FillKra />);
@@ -56,5 +64,10 @@ class Employee extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  
+  return {
+  kraStatus:state.auth.user.userdata.filledKra };
+};
 
-export default connect(null, { setCurrentComponent })(Employee);
+export default connect(mapStateToProps, { setCurrentComponent })(Employee);

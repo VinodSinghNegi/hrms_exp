@@ -8,10 +8,14 @@ const viewKramanagerUser = async (req, res) => {
     if (!kra) {
       return res.status(400).send("No Kra found");
     }
+
     const cleanValue = kra.kraSheet[0].kraAttributes.map(elements => {
       return elements;
     });
-    const finalResponse = { cleanValue, _id: kra.kraSheet[0]._id };
+    const finalResponse = {
+      cleanValue,
+      _id: kra.kraSheet[0]._id
+    };
     res.json(finalResponse);
   } catch (err) {
     console.log(err.message);

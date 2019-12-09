@@ -2,30 +2,36 @@ import React, { Component } from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import NotificationImportantIcon from "@material-ui/icons/NotificationImportant";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PageviewIcon from "@material-ui/icons/Pageview";
 import InsertCommentIcon from "@material-ui/icons/InsertComment";
 import { setCurrentComponent } from "../../actions/componentActions";
 import { connect } from "react-redux";
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import FillKra from "../fillkra";
 import Myprofile from "../myprofile";
 import ViewKra from "../viewkra";
-import ViewMyTeam from "../viewMyTeam"
-import {viewMyTeam} from "../../actions/viewMyTeam";
+import ViewMyTeam from "../viewMyTeam";
+import { viewMyTeam } from "../../actions/viewMyTeam";
 import KraRequest from "../kraRequest";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
+import TextFieldsIcon from "@material-ui/icons/TextFields";
 
 class ManagerFeatures extends Component {
-  state = {};
+  state = { disabled: true, flag: false };
+
+  componentDidMount() {
+    this.props.viewMyTeam();
+    const d = new Date().getDate();
+    if (d >= 2 && d <= 30 && !this.props.kraStatus) {
+      this.setState({ disabled: false });
+    }
+  }
+
   renderComponent = Component => {
     this.props.setCurrentComponent(Component);
   };
-  componentDidMount() {
-    this.props.viewMyTeam();
-  }
   render() {
-    const {myteam}=this.props;
+    const { myteam } = this.props;
     return (
       <div>
         <ListItem
@@ -39,18 +45,9 @@ class ManagerFeatures extends Component {
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
+
         <ListItem
-          button
-          onClick={() => {
-            this.renderComponent(<KraRequest />);
-          }}
-        >
-          <ListItemIcon>
-            <NotificationImportantIcon />
-          </ListItemIcon>
-          <ListItemText primary="KRA Request" />
-        </ListItem>
-        <ListItem
+          disabled={this.state.disabled}
           button
           onClick={() => {
             this.renderComponent(<FillKra />);
@@ -75,22 +72,36 @@ class ManagerFeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(< ViewMyTeam myusers={myteam}/>);
+            this.renderComponent(<ViewMyTeam myusers={myteam} />);
           }}
         >
           <ListItemIcon>
-            <GroupWorkIcon />
+            <TextFieldsIcon />
           </ListItemIcon>
           <ListItemText primary="My Team" />
+        </ListItem>
+        <ListItem
+          button
+          onClick={() => {
+            this.renderComponent(<KraRequest />);
+          }}
+        >
+          <ListItemIcon>
+            <AnnouncementIcon />
+          </ListItemIcon>
+          <ListItemText primary="KRA Request" />
         </ListItem>
       </div>
     );
   }
 }
 const mapStateToProps = state => {
-  console.log(state)
-  return { myteam:state.myteam.myteam
-    };
+  return {
+    myteam: state.myteam.myteam,
+    kraStatus: state.auth.user.userdata.filledKra
+  };
 };
 
-export default connect(mapStateToProps, { setCurrentComponent ,viewMyTeam})(ManagerFeatures);
+export default connect(mapStateToProps, { setCurrentComponent, viewMyTeam })(
+  ManagerFeatures
+);

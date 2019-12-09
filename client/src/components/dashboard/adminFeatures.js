@@ -4,9 +4,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import PeopleIcon from "@material-ui/icons/People";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import NotificationImportantIcon from "@material-ui/icons/NotificationImportant";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { setCurrentComponent } from "../../actions/componentActions";
 import { connect } from "react-redux";
 import Myprofile from "../myprofile";
@@ -15,6 +13,8 @@ import ViewUsers from "../viewUser";
 import ViewMyTeam from "../viewMyTeam";
 import { viewUsers } from "../../actions/viewUser";
 import { viewMyTeam } from "../../actions/viewMyTeam";
+import AnnouncementIcon from "@material-ui/icons/Announcement";
+import TextFieldsIcon from "@material-ui/icons/TextFields";
 import KraRequest from "../kraRequest";
 
 class Adminfeatures extends Component {
@@ -60,7 +60,7 @@ class Adminfeatures extends Component {
           }}
         >
           <ListItemIcon>
-            <GroupWorkIcon />
+            <TextFieldsIcon />
           </ListItemIcon>
           <ListItemText primary="My Team" />
         </ListItem>
@@ -83,7 +83,7 @@ class Adminfeatures extends Component {
           }}
         >
           <ListItemIcon>
-            <NotificationImportantIcon />
+            <AnnouncementIcon />
           </ListItemIcon>
           <ListItemText primary="KRA Request" />
         </ListItem>

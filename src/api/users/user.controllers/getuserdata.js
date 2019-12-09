@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../user.model");
+const Notification = require("../../notification/notification.model");
 const getuserdata = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
@@ -10,8 +11,9 @@ const getuserdata = async (req, res, next) => {
       .populate("kraAttributes designation_id department_id reportingManager", [
         "name"
       ]);
+    const length = await Notification.find({ to: user2._id }).count();
 
-    res.json(user2);
+    res.json({ userdata: user2, NotificationNumber: length });
   } catch (e) {
     console.log(e);
     res.status(401).send({ error: "Please authenticate" });

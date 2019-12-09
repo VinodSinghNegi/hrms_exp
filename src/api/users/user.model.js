@@ -75,25 +75,14 @@ const userSchema = new mongoose.Schema({
   ],
   token: {
     type: String
+  },
+  filledKra:{
+    type:Boolean,
+    default:false
   }
 });
 
 userSchema.plugin(AutoIncrement, { inc_field: "_id", prefix: "v" });
-
-// userSchema.methods.generateAuthToken = async function() {
-//   const user = this;
-//   const user2=await user
-//     .select("-password -__v")
-//     .populate("kraAttributes designation_id department_id reportingManager", [
-//       "name"
-//     ]);
-//   const token = jwt.sign({ _id: user._id, user2 }, "secretKey", {
-//     expiresIn: 86400
-//   });
-//   user.token = token;
-//   await user.save();
-//   return token;
-// };
 
 userSchema.pre("save", async function(next) {
   const user = this;

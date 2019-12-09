@@ -99,9 +99,7 @@ class FillKRA extends React.Component {
             style={{marginTop:"15px",marginRight:"30px"}}>
               DONE
             </Button>
-        
         </div>
-      {/* </div> */}
       </Paper>
     );
   }

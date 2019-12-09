@@ -6,6 +6,7 @@ const userRouters = require("./src/api/users/user.routers");
 // const users = require("./routes/api/users");
 const app = express();
 const departmentRouter = require("./src/api/department/department.router");
+const notificationRouter=require('./src/api/notification/notifictaion.router');
 const designationSeeder = require("./src/config/seeds/designationseeder");
 const kraAttributesSeeder = require("./src/config/seeds/kra_attributesSeeder");
 const adminSeeder = require("./src/config/seeds/adminseeder");
@@ -29,13 +30,11 @@ app.use(passport.initialize());
 // Passport config
 require("./config/passport")(passport);
 
-// Routes
-
-
 app.use(showemploye)
 app.use(userRouters);
 app.use(kraRouter);
 app.use(departmentRouter);
+app.use(notificationRouter)
 app.use(departmentSeed);
 app.use(designationSeeder);
 app.use(kraAttributesSeeder);

@@ -1,9 +1,9 @@
-import { VIEW_NOTIFICATIONS } from "./types";
+import { GET_NOTIFICATIONS } from "../actions/types";
 
 export default function(state = {}, action) {
   switch (action.type) {
-    case VIEW_NOTIFICATIONS:
-      return { notification: action.payload };//...state
+    case GET_NOTIFICATIONS:
+      return { ...state, notifications: action.payload };
     default:
       return state;
   }

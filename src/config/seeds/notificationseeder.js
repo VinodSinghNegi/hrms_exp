@@ -6,7 +6,7 @@ async function func(req, res, next) {
     var notifications = [
       new notification({
         type: "User Verified",
-        msg: `username has verified his/her account`
+        msg: `has verified his/her account`
       }),
       new notification({
         type: "KRA filled",
@@ -14,7 +14,7 @@ async function func(req, res, next) {
       }),
       new notification({
         type: "KRA Approved",
-        msg: "your KRa has been approved by"
+        msg: "has approved your KRA"
       })
     ];
     for (var i = 0; i < notifications.length; i++) {

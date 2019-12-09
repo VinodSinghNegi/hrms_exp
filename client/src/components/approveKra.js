@@ -69,7 +69,7 @@ class ApproveKra extends React.Component {
             <Button
               disabled={this.props.status === "Approved" ? true : false}
               className="ui right floated secondary button"
-              onClick={e => this.props.submitUpdatedKra(this.props.kraData)}
+              onClick={e => this.props.submitUpdatedKra(this.props.kraData, this.props.user_Id)}
               style={{ marginTop: "15px", marginRight: "30px" }}
             >
               DONE

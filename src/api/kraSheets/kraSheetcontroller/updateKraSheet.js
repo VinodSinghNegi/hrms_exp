@@ -1,9 +1,10 @@
 const KraSheetModel = require("../krasheetmodel");
+const NotificationModel = require("../../notification/notification.model");
+const NotificationType = require("../../notification/notificationType.model");
 const updatekramanager = async (req, res) => {
   console.log("in viewkramanager");
   try {
-    console.log(req.body);
-    const { krasheetId, kraAttributes } = req.body;
+    const { userId, krasheetId, kraAttributes } = req.body;
     let kra2 = await KraSheetModel.findOne(
       { "kraSheet._id": krasheetId },
       { "kraSheet.$": 1 }
@@ -24,6 +25,16 @@ const updatekramanager = async (req, res) => {
         new: true
       }
     );
+    const notificationtype = await NotificationType.findOne({
+      type: "KRA Approved"
+    });
+
+    const notification = new NotificationModel({
+      to: userId,
+      from: req.user._id,
+      typeId: notificationtype._id
+    });
+    await notification.save();
 
     res.json(kra);
   } catch (err) {
