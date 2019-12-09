@@ -8,6 +8,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Avatar } from "@material-ui/core";
+import { viewMyTeam } from "../actions/viewMyTeam";
+import { connect } from "react-redux";
+
 const columns = [
   { id: "_id", label: "Employee Code", minWidth: 100 },
   {
@@ -66,7 +69,13 @@ function ViewMyTeam(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
-  const { myusers } = props;
+  const [flag, setFlag] = React.useState(false);
+  const { myteam } = props;
+
+  if (flag === false) {
+    props.viewMyTeam();
+    setFlag(true);
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -76,7 +85,7 @@ function ViewMyTeam(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  // props.viewUsers();
+
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
@@ -95,8 +104,8 @@ function ViewMyTeam(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {myusers &&
-              myusers.map((user, i) => (
+            {myteam &&
+              myteam.map((user, i) => (
                 <TableRow key={i}>
                   <TableCell>{`${user.prefix}${user._id}`}</TableCell>
                   <TableCell>{user.name}</TableCell>
@@ -121,7 +130,7 @@ function ViewMyTeam(props) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={myusers ? myusers.length : ""}
+        count={myteam ? myteam.length : ""}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
@@ -130,5 +139,10 @@ function ViewMyTeam(props) {
     </Paper>
   );
 }
+const mapStateToProps = state => {
+  return {
+    myteam: state.myteam.myteam
+  };
+};
 
-export default ViewMyTeam;
+export default connect(mapStateToProps, { viewMyTeam })(ViewMyTeam);

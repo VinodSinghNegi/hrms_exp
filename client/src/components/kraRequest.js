@@ -64,6 +64,7 @@ function KraRequest(props) {
     props.getKraRequest();
     setFlag(true);
   }
+  
   const viewRequest = (Component, sheetId) => {
     props.updateKra(sheetId);
     props.setCurrentComponent(Component);

@@ -8,6 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Avatar } from "@material-ui/core";
+import { viewUsers } from "../actions/viewUser";
+import { connect } from "react-redux";
 
 const columns = [
   { id: "_id", label: "Employee Code", minWidth: 100 },
@@ -67,8 +69,13 @@ function ViewUsers(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
+  const [flag, setFlag] = React.useState(false);
   const { allusers } = props;
 
+  if (flag === false) {
+    props.viewUsers();
+    setFlag(true);
+  }
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -77,7 +84,7 @@ function ViewUsers(props) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  // props.viewUsers();
+
   return (
     <Paper className={classes.root}>
       <div className={classes.tableWrapper}>
@@ -131,5 +138,10 @@ function ViewUsers(props) {
     </Paper>
   );
 }
+const mapStateToProps = state => {
+  return {
+    allusers: state.allusers.all_users
+  };
+};
 
-export default ViewUsers;
+export default connect(mapStateToProps, { viewUsers })(ViewUsers);

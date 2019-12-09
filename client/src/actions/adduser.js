@@ -21,6 +21,10 @@ export const saveUser = userdata => dispatch => {
       type: FORMDATA,
       payload: {error:"success"}
     })
+    dispatch({
+      type:FORMDATA,
+      payload:null
+    })
   }).catch((e)=>{
     dispatch({
       type:FORMDATA,
