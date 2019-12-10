@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { Header } from "semantic-ui-react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -30,6 +31,16 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow);
 
+const style = {
+  h1: {
+    fontFamily: "Times New Roman",
+    fontWeight: "bolder"
+  },
+  h3: {
+    marginTop: "2em",
+    padding: "2em 0em"
+  }
+};
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -68,7 +79,7 @@ function CustomizedTables(props) {
   ];
 
   if (first === true) {
-    const d=new Date()
+    const d = new Date();
     props.viewkra(d.getFullYear());
     setfirst(false);
   }
@@ -86,7 +97,11 @@ function CustomizedTables(props) {
               {trowhead[i]}
             </StyledTableCell>
             {month.kraAttributes.map((kra, j) => {
-              return <StyledTableCell key={j} align="center">{kra.value}</StyledTableCell>
+              return (
+                <StyledTableCell key={j} align="center">
+                  {kra.value}
+                </StyledTableCell>
+              );
             })}
             <StyledTableCell align="center">{month.Status}</StyledTableCell>
           </StyledTableRow>
@@ -94,9 +109,15 @@ function CustomizedTables(props) {
       });
     }
   };
-  console.log(props)
+  console.log(props);
   return (
     <Paper className={classes.root}>
+      <Header
+        as="h3"
+        content="MY Key Result Area"
+        style={style.h1}
+        textAlign="center"
+      />
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -106,7 +127,7 @@ function CustomizedTables(props) {
                   native
                   className={classes.select}
                   defaultValue={getCurrentMonthAndYear().year}
-                  onChange={e=>props.viewkra(e.target.value)}
+                  onChange={e => props.viewkra(e.target.value)}
                   inputProps={{
                     name: "age",
                     id: "outlined-age-native-simple"

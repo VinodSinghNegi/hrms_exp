@@ -39,29 +39,36 @@ function Notification(props) {
               return (
                 <ListItem key={i}>
                   <ListItemAvatar>
-                  
-                      {/* <HowToRegIcon style={{ fontSize: "medium" }} /> */}
-                      {ele.typeId.type === "KRA filled" ? (
-                          <Avatar style={{ fontSize: "medium" ,backgroundColor:"orange"}}>
+                    {/* <HowToRegIcon style={{ fontSize: "medium" }} /> */}
+                    {ele.typeId.type === "KRA filled" ? (
+                      <Avatar
+                        style={{
+                          fontSize: "medium",
+                          backgroundColor: "orange"
+                        }}
+                      >
                         <EventNoteIcon />
-                        </Avatar>
-                      ) : ele.typeId.type === "KRA Approved" ? (
-                        <Avatar style={{ fontSize: "medium" ,backgroundColor:"blue"}}>
+                      </Avatar>
+                    ) : ele.typeId.type === "KRA Approved" ? (
+                      <Avatar
+                        style={{ fontSize: "medium", backgroundColor: "blue" }}
+                      >
                         <DoneAllIcon />
-                        </Avatar>
-                      ) : (
-                        <Avatar style={{ fontSize: "medium" ,backgroundColor:"green"}}>
+                      </Avatar>
+                    ) : (
+                      <Avatar
+                        style={{ fontSize: "medium", backgroundColor: "green" }}
+                      >
                         <HowToRegIcon />
-                        </Avatar>
-                      )}
-                  
+                      </Avatar>
+                    )}
                   </ListItemAvatar>
                   {ele.from.name + " " + ele.typeId.msg}
                 </ListItem>
               );
             })}
           </List>
-          <a href="">Show More</a>
+
         </div>
       </Grid>
     );

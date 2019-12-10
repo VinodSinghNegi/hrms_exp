@@ -19,7 +19,7 @@ import { saveUser } from "../actions/adduser";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { setCurrentComponent } from "../actions/componentActions";
-import Alluser from "../components/viewUser";
+import { Header } from "semantic-ui-react";
 
 const useQontoStepIconStyles = makeStyles({
   root: {
@@ -156,13 +156,21 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(1)
   }
 }));
-
+const style = {
+  h1: {
+    fontFamily: "Times New Roman",
+    fontWeight: "bolder"
+  },
+  h3: {
+    marginTop: "2em",
+    padding: "2em 0em"
+  }
+};
 function getSteps() {
   return ["Basic Details", "Official", "Preview"];
 }
 
 function CustomizedSteppers(props) {
-  const [flag, setflag] = React.useState(false);
   let {
     name,
     email,
@@ -192,8 +200,6 @@ function CustomizedSteppers(props) {
 
   const validator = () => {
     if (activeStep === 0) {
-      console.log(email);
-
       if (name.length < 1 || email.length < 1 || gender.length < 1) {
         alert("please fill all fields");
         return false;
@@ -246,6 +252,13 @@ function CustomizedSteppers(props) {
   };
   return (
     <Paper className={classes.root}>
+      <Header
+        as="h3"
+        content="ADD NEW USER"
+        style={style.h1}
+        textAlign="center"
+      />
+
       <div className={classes.root}>
         <Stepper
           alternativeLabel

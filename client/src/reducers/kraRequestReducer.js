@@ -1,8 +1,4 @@
-import {
-  KRA_REQUEST,
-  UPDATE_KRA,
-  UPDATED_NEW_KRA_VALUES
-} from "../actions/types";
+import { KRA_REQUEST, UPDATE_KRA } from "../actions/types";
 
 export default function(state = null, action) {
   switch (action.type) {

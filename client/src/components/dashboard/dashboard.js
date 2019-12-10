@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     flexGrow: 1
   },
-  
+
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
@@ -117,7 +117,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [designation, setDesignation] = React.useState(null);
   const [component, setComponent] = React.useState(null);
   const [flag, setFlag] = React.useState(false);
@@ -186,22 +186,23 @@ function Dashboard(props) {
             noWrap
             className={classes.title}
           >
-            Dashboard
-          </Typography>
-          <IconButton
-            color="inherit"
-            aria-describedby={id}
-            variant="contained"
-            onClick={handleClick}
-            className={classes.notification}
-          >
-            <Badge
-              badgeContent={props.auth.user.notificationLength}
-              color="secondary"
+            <IconButton
+              color="inherit"
+              aria-describedby={id}
+              variant="contained"
+              onClick={handleClick}
+              className={classes.notification}
+              mr={2}
             >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+              <Badge
+                badgeContent={props.auth.user.notificationLength}
+                color="secondary"
+              >
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </Typography>
+
           <Popover
             id={id}
             open={notiopen}

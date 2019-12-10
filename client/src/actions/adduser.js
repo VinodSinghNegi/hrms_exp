@@ -1,4 +1,4 @@
-import { DROPDOWN_DATA, FORMDATA, GET_ERRORS } from "./types";
+import { DROPDOWN_DATA, FORMDATA } from "./types";
 import Axios from "axios";
 import { setCurrentComponent } from "./componentActions";
 import Alluser from "../components/viewUser";
@@ -29,6 +29,7 @@ export const saveUser = userdata => async dispatch => {
         type: FORMDATA,
         payload: null
       });
+      dispatch(setCurrentComponent(<Alluser/>))
     })
     .catch(e => {
       dispatch({

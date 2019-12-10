@@ -27,8 +27,7 @@ class Adminfeatures extends Component {
     this.props.viewMyTeam();
   }
   render() {
-    const { allusers } = this.props;
-    const { myteam } = this.props;
+    
     return (
       <div>
         <ListItem

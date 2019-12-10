@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "mdbreact/dist/css/mdb.css";
 import { connect } from "react-redux";
+import { MDBContainer } from "mdbreact";
 
 class Preview extends Component {
   render() {
@@ -14,7 +15,7 @@ class Preview extends Component {
       selectedkraAttributes
     } = this.props.addUserForm;
     return (
-      <>
+      <MDBContainer>
         <table className="table table-sm" border="solid 0.1px black">
           <tbody>
             <tr style={{ fontSize: "15px", fontWeight: "bold" }}>
@@ -47,13 +48,17 @@ class Preview extends Component {
               </th>
               <td>
                 {selectedkraAttributes.map(kra => {
-                  return <li style={{listStyleType:"none"}} key={kra.name}>{kra.name}</li>
+                  return (
+                    <li style={{ listStyleType: "none" }} key={kra.name}>
+                      {kra.name}
+                    </li>
+                  );
                 })}
               </td>
             </tr>
           </tbody>
         </table>
-      </>
+      </MDBContainer>
     );
   }
 }

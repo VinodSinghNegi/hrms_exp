@@ -5,11 +5,11 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Avatar, Button } from "@material-ui/core";
 import { viewUsers } from "../actions/viewUser";
 import { connect } from "react-redux";
+import { Header } from "semantic-ui-react";
 
 const columns = [
   { id: "_id", label: "Employee Code", minWidth: 100 },
@@ -44,7 +44,16 @@ const columns = [
     align: "right"
   }
 ];
-
+const style = {
+  h1: {
+    fontFamily: "Times New Roman",
+    fontWeight: "bolder"
+  },
+  h3: {
+    marginTop: "2em",
+    padding: "2em 0em"
+  }
+};
 const useStyles = makeStyles({
   root: {
     width: "100%"
@@ -88,6 +97,7 @@ function ViewUsers(props) {
 
   return (
     <Paper className={classes.root}>
+      <Header as="h3" content="ALL USERS" style={style.h1} textAlign="center" />
       <div className={classes.tableWrapper}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

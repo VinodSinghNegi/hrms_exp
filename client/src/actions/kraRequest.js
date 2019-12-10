@@ -1,13 +1,12 @@
 import Axios from "axios";
-import { KRA_REQUEST, UPDATE_KRA, UPDATED_NEW_KRA_VALUES } from "./types";
+import { KRA_REQUEST, UPDATE_KRA } from "./types";
 import { setCurrentComponent } from "./componentActions";
-import KraRequest from '../components/kraRequest';
-import React from 'react'
+import KraRequest from "../components/kraRequest";
+import React from "react";
 
 var response = null;
 export const getKraRequest = () => async dispatch => {
   const res = await Axios.get("/manager/viewkra");
-  console.log(res.data);
   dispatch({
     type: KRA_REQUEST,
     payload: res.data
@@ -30,7 +29,7 @@ export const UpdatedkraValues = kradata => async dispatch => {
   const upvalue = kradata.value;
 
   var changeValue = response.cleanValue.map(element => {
-    if (element._id == upid) {
+    if (element._id === upid) {
       element.value = upvalue;
     }
     return element;
@@ -43,10 +42,10 @@ export const UpdatedkraValues = kradata => async dispatch => {
 };
 
 export const submitUpdatedKra = (kraData, userid) => async dispatch => {
-  const res = await Axios.post("/manager/updatekra", {
+  await Axios.post("/manager/updatekra", {
     kraAttributes: kraData.cleanValue,
     krasheetId: kraData._id,
-    userId:userid
-  })
-  dispatch(setCurrentComponent(<KraRequest/>))
+    userId: userid
+  });
+  dispatch(setCurrentComponent(<KraRequest />));
 };

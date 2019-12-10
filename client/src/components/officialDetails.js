@@ -15,12 +15,12 @@ export class OfficialDetails extends React.Component {
     await this.setState({
       reportingManager: this.props.addUserForm.reportingManager
     });
-    if (design.name == "Manager") {
+    if (design.name === "Manager") {
       const arr = this.state.reportingManager.filter(rm => {
         return rm.name === "CEO" ? true : false;
       });
       await this.setState({ reportingManager: arr });
-    } else if (design.name == "Employee/Team Lead") {
+    } else if (design.name === "Employee/Team Lead") {
       const arr = this.state.reportingManager.filter(rm => {
         return rm.name !== "CEO" ? true : false;
       });

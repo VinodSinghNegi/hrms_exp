@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Header } from "semantic-ui-react";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -43,7 +44,16 @@ const columns = [
     align: "right"
   }
 ];
-
+const style = {
+  h1: {
+    fontFamily: "Times New Roman",
+    fontWeight: "bolder"
+  },
+  h3: {
+    marginTop: "2em",
+    padding: "2em 0em"
+  }
+};
 const useStyles = makeStyles({
   root: {
     width: "100%"
@@ -87,6 +97,7 @@ function ViewMyTeam(props) {
 
   return (
     <Paper className={classes.root}>
+      <Header as="h3" content="MY TEAM" style={style.h1} textAlign="center" />
       <div className={classes.tableWrapper}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
