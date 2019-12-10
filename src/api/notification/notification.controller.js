@@ -6,11 +6,9 @@ const getNotification = async (req, res) => {
       .populate("typeId", "-_id -__v")
       .select("-__v")
       .sort({ date: -1 });
-    console.log(notification);
     if (!notification) {
       return res.status(400).send("No notification found");
     }
-
     res.send(notification);
   } catch (error) {
     console.log(error.message);

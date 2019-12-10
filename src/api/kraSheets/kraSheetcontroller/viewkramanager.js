@@ -17,7 +17,7 @@ const viewkramanager = async (req, res) => {
           select: "name"
         }
       })
-      .select("-_id -kraSheet.kraAttributes -__v");
+      .select("-_id -kraSheet.kraAttributes -__v")
     const month = new Date().getMonth();
     const year = new Date().getFullYear();
     kra2=kra2.filter(e=>{

@@ -10,7 +10,7 @@ const { logout } = require("./user.controllers/logoutuser");
 const { showme } = require("./user.controllers/showProfile");
 const { forget } = require("./user.controllers/forgetpassword");
 const { verify } = require("./user.controllers/verifypasswrd");
-const { verifyLogin } = require("./user.controllers/verifyLogin")
+const { verifyLogin } = require("./user.controllers/verifyLogin");
 const { changePass } = require("./user.controllers/changepassword");
 const { showMyTeam } = require("./user.controllers/showMyTeam");
 const { seeds } = require("./user.controllers/seeds");
@@ -24,7 +24,7 @@ router.get("/showme", userauth, showme);
 router.post("/forgetPassword", forget);
 router.get("/verify/:token", verify);
 router.post("/changepassword", changePass);
-router.get("/showteam", common, showMyTeam);
+router.get("/showteam/:skip", common, showMyTeam);
 router.get("/getseeds", adminauth, seeds);
 
 module.exports = router;

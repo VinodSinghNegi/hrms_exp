@@ -6,7 +6,6 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import { Button } from "@material-ui/core";
 import { getKraRequest, updateKra } from "../actions/kraRequest";
@@ -54,31 +53,19 @@ const useStyles = makeStyles({
 
 function KraRequest(props) {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const { kraRequest } = props;
   const [flag, setFlag] = React.useState(false);
-  const [component, setComponent] = React.useState(null);
 
   if (flag === false) {
     props.getKraRequest();
     setFlag(true);
   }
-  
+
   const viewRequest = (Component, sheetId) => {
     props.updateKra(sheetId);
     props.setCurrentComponent(Component);
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  // props.viewUsers();
   if (kraRequest !== null) {
     return (
       <Paper className={classes.root}>
@@ -111,7 +98,13 @@ function KraRequest(props) {
                   <TableCell align="center">
                     <Button
                       onClick={() => {
-                        viewRequest(<ApproveKra status={user.kraSheet[0].Status} user_Id={user.userId._id}/>, user.kraSheet[0]._id);
+                        viewRequest(
+                          <ApproveKra
+                            status={user.kraSheet[0].Status}
+                            user_Id={user.userId._id}
+                          />,
+                          user.kraSheet[0]._id
+                        );
                       }}
                     >
                       Check
@@ -122,15 +115,8 @@ function KraRequest(props) {
             </TableBody>
           </Table>
         </div>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={kraRequest ? kraRequest.kraRequest.length :0}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
+        <Button disabled>prev</Button>
+        <Button disabled>next</Button>
       </Paper>
     );
   } else {

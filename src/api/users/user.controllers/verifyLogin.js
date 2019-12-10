@@ -6,15 +6,15 @@ const verifyLogin = async (req, res, next) => {
   try {
     const decodedtoken = jwt.decode(req.params.token, "secretKey");
     const { userdata } = decodedtoken;
-    console.log(userdata);
+    
     const user = new User(userdata);
     await user.save();
-    console.log(user);
+    
     const notificationtype = await NotificationType.findOne({
       type: "User Verified"
     });
     const notification = new NotificationModel({
-      to: 1,
+      to: 1000,
       from: user._id,
       typeId: notificationtype._id
     });

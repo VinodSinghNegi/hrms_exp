@@ -74,7 +74,8 @@ const userSchema = new mongoose.Schema({
     }
   ],
   token: {
-    type: String
+    type: String,
+    default:""
   },
   filledKra:{
     type:Boolean,
@@ -82,7 +83,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.plugin(AutoIncrement, { inc_field: "_id", prefix: "v" });
+userSchema.plugin(AutoIncrement, { inc_field: "_id", start_seq: 1000 });
 
 userSchema.pre("save", async function(next) {
   const user = this;

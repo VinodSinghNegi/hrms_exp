@@ -7,7 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import { viewUsers } from "../actions/viewUser";
 import { connect } from "react-redux";
 
@@ -67,22 +67,23 @@ const useStyles = makeStyles({
 
 function ViewUsers(props) {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+
+  const [skipvalue, setskipvalue] = React.useState(0);
   const [flag, setFlag] = React.useState(false);
   const { allusers } = props;
 
   if (flag === false) {
-    props.viewUsers();
+    props.viewUsers(0);
     setFlag(true);
   }
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const next = () => {
+    props.viewUsers(skipvalue + 2);
+    setskipvalue(skipvalue + 2);
+  };
+  const prev = () => {
+    props.viewUsers(skipvalue - 2);
+    setskipvalue(skipvalue - 2);
   };
 
   return (
@@ -126,21 +127,22 @@ function ViewUsers(props) {
           </TableBody>
         </Table>
       </div>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={allusers ? allusers.length : ""}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+      <Button disabled={skipvalue <= 0 ? true : false} onClick={e => prev()}>
+        prev
+      </Button>
+      <Button
+        disabled={skipvalue >= props.userlen - 1 ? true : false}
+        onClick={e => next()}
+      >
+        next
+      </Button>
     </Paper>
   );
 }
 const mapStateToProps = state => {
   return {
-    allusers: state.allusers.all_users
+    allusers: state.allusers.all_users,
+    userlen: state.allusers.userlen
   };
 };
 

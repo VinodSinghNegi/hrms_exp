@@ -5,9 +5,8 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import { viewMyTeam } from "../actions/viewMyTeam";
 import { connect } from "react-redux";
 
@@ -67,23 +66,23 @@ const useStyles = makeStyles({
 
 function ViewMyTeam(props) {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(20);
+
   const [flag, setFlag] = React.useState(false);
+  const [skipvalue, setskipvalue] = React.useState(0);
   const { myteam } = props;
 
   if (flag === false) {
-    props.viewMyTeam();
+    props.viewMyTeam(0);
     setFlag(true);
   }
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const next = () => {
+    props.viewMyTeam(skipvalue + 2);
+    setskipvalue(skipvalue + 2);
   };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const prev = () => {
+    props.viewMyTeam(skipvalue - 2);
+    setskipvalue(skipvalue - 2);
   };
 
   return (
@@ -127,21 +126,23 @@ function ViewMyTeam(props) {
           </TableBody>
         </Table>
       </div>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={myteam ? myteam.length : ""}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+
+      <Button disabled={skipvalue <= 0 ? true : false} onClick={e => prev()}>
+        prev
+      </Button>
+      <Button
+        disabled={skipvalue >= props.teamlen - 1 ? true : false}
+        onClick={e => next()}
+      >
+        next
+      </Button>
     </Paper>
   );
 }
 const mapStateToProps = state => {
   return {
-    myteam: state.myteam.myteam
+    myteam: state.myteam.myteam,
+    teamlen: state.myteam.teamlen
   };
 };
 

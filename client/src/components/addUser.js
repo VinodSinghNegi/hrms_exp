@@ -18,8 +18,8 @@ import Preview from "./preview";
 import { saveUser } from "../actions/adduser";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import {setCurrentComponent} from '../actions/componentActions';
-import Alluser from '../components/viewUser'
+import { setCurrentComponent } from "../actions/componentActions";
+import Alluser from "../components/viewUser";
 
 const useQontoStepIconStyles = makeStyles({
   root: {
@@ -146,7 +146,7 @@ ColorlibStepIcon.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     width: "90%",
-    padding:"10px"
+    padding: "10px"
   },
   button: {
     marginRight: theme.spacing(1)
@@ -162,7 +162,7 @@ function getSteps() {
 }
 
 function CustomizedSteppers(props) {
-  const [flag, setflag]=React.useState(false)
+  const [flag, setflag] = React.useState(false);
   let {
     name,
     email,
@@ -171,7 +171,7 @@ function CustomizedSteppers(props) {
     selectedDesignation,
     selectedkraAttributes,
     selectedreportingManager,
-    error
+    errors
   } = props.addUserForm;
 
   function getStepContent(step) {
@@ -192,6 +192,8 @@ function CustomizedSteppers(props) {
 
   const validator = () => {
     if (activeStep === 0) {
+      console.log(email);
+
       if (name.length < 1 || email.length < 1 || gender.length < 1) {
         alert("please fill all fields");
         return false;
@@ -233,67 +235,71 @@ function CustomizedSteppers(props) {
 
   onsubmit = () => {
     props.saveUser({
-    name: name,
-    email: email,
-    gender: gender,
-    department_id: selectedDepartment,
-    designation_id: selectedDesignation,
-    reportingManager: selectedreportingManager,
-    kraAttributes: selectedkraAttributes
-    })
+      name: name,
+      email: email,
+      gender: gender,
+      department_id: selectedDepartment,
+      designation_id: selectedDesignation,
+      reportingManager: selectedreportingManager,
+      kraAttributes: selectedkraAttributes
+    });
   };
   return (
     <Paper className={classes.root}>
-    <div className={classes.root}>
-      <Stepper
-        alternativeLabel
-        activeStep={activeStep}
-        connector={<ColorlibConnector />}
-      >
-        {steps.map(label => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div><p>{error}</p></div>
-        ) : (
-          <div>
-            <div className={classes.instructions}>
-              {getStepContent(activeStep)}
-            </div>
+      <div className={classes.root}>
+        <Stepper
+          alternativeLabel
+          activeStep={activeStep}
+          connector={<ColorlibConnector />}
+        >
+          {steps.map(label => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
+          {activeStep === steps.length ? (
             <div>
-              <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.button}
-              >
-                Back
-              </Button>
-
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
+              <p>{errors}</p>
             </div>
-          </div>
-        )}
+          ) : (
+            <div>
+              <div className={classes.instructions}>
+                {getStepContent(activeStep)}
+              </div>
+              <div>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.button}
+                >
+                  Back
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                  className={classes.button}
+                >
+                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </Paper>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    addUserForm:state.addUserForm
-  }
+    addUserForm: state.addUserForm
+  };
 };
 
 export default connect(mapStateToProps, { saveUser, setCurrentComponent })(
