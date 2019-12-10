@@ -89,20 +89,5 @@ export const logoutUser = () => async dispatch => {
     type: SET_CURRENT_COMPONENT,
     payload: null
   });
-  // dispatch({
-  //   type: ADD_KRA,
-  //   payload: {}
-  // });
-  // dispatch({
-  //   type: VIEW_KRA,
-  //   payload: {}
-  // });
-  // dispatch({
-  //   type: DROPDOWN_DATA,
-  //   payload: {}
-  // });
-  // dispatch({
-  //   type: FORMDATA,
-  //   payload: {}
-  // });
+
 };
