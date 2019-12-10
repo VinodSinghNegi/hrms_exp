@@ -6,9 +6,10 @@ const initialstate = {
 };
 
 export default function(state = initialstate, action) {
+  console.log(action.payload);
   switch (action.type) {
     case ADD_KRA:
-      // restricting duplicacy 
+      // restricting duplicacy
       const arr = state.fillKra.filter(kra => {
         return kra.Attributesid !== action.payload.Attributesid ? true : false;
       });

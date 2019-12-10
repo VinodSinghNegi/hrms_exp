@@ -15,7 +15,7 @@ class Employee extends Component {
   state = { disabled: true };
   componentDidMount() {
     const d = new Date().getDate();
-    if ((d >= 25 && d <= 30) && !this.props.kraStatus) {
+    if (d >= 2 && d <= 30 && !this.props.kraStatus) {
       this.setState({ disabled: false });
     }
   }
@@ -65,9 +65,9 @@ class Employee extends Component {
   }
 }
 const mapStateToProps = state => {
-  
   return {
-  kraStatus:state.auth.user.userdata.filledKra };
+    kraStatus: state.auth.user.userdata.filledKra
+  };
 };
 
 export default connect(mapStateToProps, { setCurrentComponent })(Employee);

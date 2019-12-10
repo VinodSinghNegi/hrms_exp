@@ -13,6 +13,7 @@ export const viewkra = year => async dispatch => {
 
 // ACTION WHICH SUBMITS USER FILLED KRA TO REDUX
 export const addkra = kradata => async dispatch => {
+  console.log(kradata);
   dispatch({
     type: ADD_KRA,
     payload: kradata

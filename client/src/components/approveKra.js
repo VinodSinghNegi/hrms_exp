@@ -27,20 +27,21 @@ class ApproveKra extends React.Component {
         <Grid.Row key={kra._id}>
           <Grid.Column>
             <Segment>
-              {kra.name}
+              <label htmlFor="customRange1">{kra.name}</label>
+              <label style={{ float: "right" }}>{kra.value}</label>
               <input
-                disabled={this.props.status === "Approved" ? true : false}
-                type="number"
+                type="range"
                 min={0}
                 max={100}
                 defaultValue={kra.value}
+                className="custom-range"
+                id={kra._id}
                 onChange={e => {
                   this.props.UpdatedkraValues({
                     Attributesid: kra._id,
                     value: e.target.value
                   });
                 }}
-                style={{ float: "right" }}
               />
             </Segment>
           </Grid.Column>
@@ -69,7 +70,12 @@ class ApproveKra extends React.Component {
             <Button
               disabled={this.props.status === "Approved" ? true : false}
               className="ui right floated secondary button"
-              onClick={e => this.props.submitUpdatedKra(this.props.kraData, this.props.user_Id)}
+              onClick={e =>
+                this.props.submitUpdatedKra(
+                  this.props.kraData,
+                  this.props.user_Id
+                )
+              }
               style={{ marginTop: "15px", marginRight: "30px" }}
             >
               DONE
