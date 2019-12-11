@@ -4,7 +4,14 @@ import {
   GET_ERRORS,
   SET_CURRENT_USER,
   USER_LOADING,
-  SET_CURRENT_COMPONENT
+  SET_CURRENT_COMPONENT,
+  VIEW_KRA,
+  FORMDATA,
+  EMPTY_KRA,
+  CLEAR_ERRORS,
+  CLEAR_NOTIFICATIONS,
+  CLEAR_TEAM,
+  CLEAR_USERS
 } from "./types";
 import { setCurrentComponent } from "./componentActions";
 import Profile from "../components/myprofile";
@@ -14,16 +21,13 @@ export const loginUser = userData => dispatch => {
   axios
     .post("/login", userData)
     .then(res => {
-      // Save to localStorage
-      // // Set token to localStorage
+      // Set token to localStorage
       const { token, userdata, NotificationNumber } = res.data;
 
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
       setAuthToken(token);
-
-      // Decode token to get user data
-      // Set current user
+      // Decode token to get user data and Set current user
       dispatch(
         setCurrentUser({
           userdata: userdata,
@@ -78,16 +82,46 @@ export const setUserLoading = () => {
 // Log user out
 export const logoutUser = () => async dispatch => {
   // Remove token from local storage
-  axios.get("/logout");
-  localStorage.removeItem("jwtToken");
-  // Remove auth header for future requests
-  setAuthToken(false);
-  // Set current user to empty object {} which will set isAuthenticated to false
-  dispatch(setCurrentUser({}));
-
-  dispatch({
-    type: SET_CURRENT_COMPONENT,
-    payload: null
-  });
-
+  axios
+    .get("/logout")
+    .then(() => {
+      localStorage.removeItem("jwtToken");
+      // Remove auth header for future requests
+      setAuthToken(false);
+      // Set current user to empty object {} which will set isAuthenticated to false
+      dispatch({
+        type: SET_CURRENT_COMPONENT,
+        payload: null
+      });
+      dispatch({
+        type: FORMDATA,
+        payload: null
+      });
+      dispatch({
+        type: VIEW_KRA,
+        payload: null
+      });
+      dispatch({
+        type: EMPTY_KRA
+      });
+      dispatch({
+        type: CLEAR_ERRORS
+      });
+      dispatch({
+        type: CLEAR_NOTIFICATIONS
+      });
+      dispatch({
+        type: CLEAR_TEAM
+      });
+      dispatch({
+        type: CLEAR_USERS
+      });
+      dispatch(setCurrentUser({}));
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };

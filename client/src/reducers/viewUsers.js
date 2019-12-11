@@ -1,4 +1,4 @@
-import { VIEW_USERS } from "../actions/types";
+import { VIEW_USERS, CLEAR_USERS } from "../actions/types";
 
 export default function(state = {}, action) {
   switch (action.type) {
@@ -8,6 +8,8 @@ export default function(state = {}, action) {
         all_users: action.payload.user,
         userlen: action.payload.userlength
       };
+    case CLEAR_USERS:
+      return {}
     default:
       return state;
   }

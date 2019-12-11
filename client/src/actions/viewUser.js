@@ -1,11 +1,18 @@
-import { VIEW_USERS } from "./types";
+import { VIEW_USERS, GET_ERRORS } from "./types";
 import Axios from "axios";
 
-export const viewUsers = (skip) => async dispatch => {
-  const res = await Axios.get(`/showemployees/${skip}`);
-
-  dispatch({
-    type: VIEW_USERS,
-    payload: res.data
-  });
+export const viewUsers = skip => dispatch => {
+  Axios.get(`/showemployees/${skip}`)
+    .then(res => {
+      dispatch({
+        type: VIEW_USERS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };

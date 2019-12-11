@@ -1,14 +1,21 @@
-import { DROPDOWN_DATA, FORMDATA } from "./types";
+import { DROPDOWN_DATA, FORMDATA, GET_ERRORS } from "./types";
 import Axios from "axios";
 import { setCurrentComponent } from "./componentActions";
 import Alluser from "../components/viewUser";
 import React from "react";
-export const getDropdown = () => async dispatch => {
-  const res = await Axios.get("/getseeds");
-  dispatch({
-    type: DROPDOWN_DATA,
-    payload: { ...res.data }
-  });
+
+export const getDropdown = () => dispatch => {
+  Axios.get("/getseeds").then((res)=>{
+    dispatch({
+      type: DROPDOWN_DATA,
+      payload: { ...res.data }
+    });
+  }).catch((err)=>{
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  })
 };
 
 export const formData = formdata => dispatch => {

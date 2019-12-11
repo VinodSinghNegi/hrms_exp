@@ -1,10 +1,18 @@
-import { VIEW_MY_TEAM } from "./types";
+import { VIEW_MY_TEAM, GET_ERRORS } from "./types";
 import Axios from "axios";
 
-export const viewMyTeam = skip => async dispatch => {
-  const res = await Axios.get(`/showteam/${skip}`);
-  dispatch({
-    type: VIEW_MY_TEAM,
-    payload: res.data
-  });
+export const viewMyTeam = skip => dispatch => {
+  Axios.get(`/showteam/${skip}`)
+    .then(res => {
+      dispatch({
+        type: VIEW_MY_TEAM,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };

@@ -6,6 +6,7 @@ export default function(state = initialState, action) {
   if (localStorage.jwtToken) {
     const token = localStorage.jwtToken;
     setAuthToken(token);
+
     switch (action.type) {
       case "SET_CURRENT_COMPONENT":
         return {
@@ -17,8 +18,6 @@ export default function(state = initialState, action) {
     }
   } else {
     setAuthToken(null);
-    return state
-    
-    
+    return initialState
   }
 }

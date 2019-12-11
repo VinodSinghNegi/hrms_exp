@@ -21,6 +21,9 @@ export default function(state = initialstate, action) {
     }
 
     case VIEW_KRA: {
+      if(action.payload===null){
+        return initialstate
+      }
       return { ...state, viewKraData: action.payload };
     }
     default:

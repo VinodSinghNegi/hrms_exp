@@ -12,15 +12,17 @@ import Myprofile from "../myprofile";
 import ViewKra from "../viewkra";
 
 class Employee extends Component {
-  state = { disabled: true };
+  state = { disabled: false, flag: false };
+
   componentDidMount() {
     const d = new Date().getDate();
-    if (d >= 2 && d <= 30 && !this.props.kraStatus) {
-      this.setState({ disabled: false });
+    if (d >= 2 && d <= 30 && this.props.kraStatus) {
+      this.setState({ disabled: true });
     }
   }
-  renderComponent = Component => {
-    this.props.setCurrentComponent(Component);
+ 
+  check = () => {
+    this.setState({ disabled: true });
   };
   render() {
     return (
@@ -28,7 +30,7 @@ class Employee extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<Myprofile />);
+            this.props.setCurrentComponent(<Myprofile />);
           }}
         >
           <ListItemIcon>
@@ -41,7 +43,7 @@ class Employee extends Component {
           disabled={this.state.disabled}
           button
           onClick={() => {
-            this.renderComponent(<FillKra />);
+            this.props.setCurrentComponent(<FillKra  check={this.check}/>);
           }}
         >
           <ListItemIcon>
@@ -52,7 +54,7 @@ class Employee extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<ViewKra />);
+            this.props.setCurrentComponent(<ViewKra />);
           }}
         >
           <ListItemIcon>

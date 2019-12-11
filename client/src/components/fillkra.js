@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, Header, Segment, Button } from "semantic-ui-react";
-
 import getCurrentMonthAndYear from "./utils/getCurrentMonthAndYear";
 import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";

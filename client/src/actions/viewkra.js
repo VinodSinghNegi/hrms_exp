@@ -1,4 +1,4 @@
-import { VIEW_KRA, ADD_KRA } from "./types";
+import { VIEW_KRA, ADD_KRA, GET_ERRORS } from "./types";
 import Axios from "axios";
 import { setCurrentUser } from "./authAction";
 
@@ -12,15 +12,31 @@ export const addkra = kradata => async dispatch => {
 
 // ACTION WHICH SUBMITS USER FILLED KRA TO BACKEND
 export const submitkra = kradata => async dispatch => {
-  const res = await Axios.post("/user/addkra", { kradata });
-  dispatch(setCurrentUser(null));
+  Axios.post("/user/addkra", { kradata })
+    .then(() => {
+      dispatch(setCurrentUser(null));
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 // ACTION WHICH GETS ALL THE KRA SHEETS OF USER
 export const viewkra = year => async dispatch => {
-  const res = await Axios.get(`/user/viewkra/${year}`);
-  dispatch({
-    type: VIEW_KRA,
-    payload: res.data
-  });
+  Axios.get(`/user/viewkra/${year}`)
+    .then(res => {
+      dispatch({
+        type: VIEW_KRA,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
