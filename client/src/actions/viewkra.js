@@ -1,6 +1,7 @@
 import { VIEW_KRA, ADD_KRA, GET_ERRORS } from "./types";
 import Axios from "axios";
 import { setCurrentUser } from "./authAction";
+import {flush} from './flushRedux';
 
 // ACTION WHICH SUBMITS USER FILLED KRA TO REDUX
 export const addkra = kradata => async dispatch => {
@@ -17,6 +18,9 @@ export const submitkra = kradata => async dispatch => {
       dispatch(setCurrentUser(null));
     })
     .catch(err => {
+      if(err.response.data.error==='Please authenticate'){
+        dispatch(flush())
+      }
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
@@ -34,6 +38,9 @@ export const viewkra = year => async dispatch => {
       });
     })
     .catch(err => {
+      if(err.response.data.error==='Please authenticate'){
+        dispatch(flush())
+      }
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data

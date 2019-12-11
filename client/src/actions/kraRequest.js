@@ -3,14 +3,26 @@ import { KRA_REQUEST, UPDATE_KRA, GET_ERRORS } from "./types";
 import { setCurrentComponent } from "./componentActions";
 import KraRequest from "../components/kraRequest";
 import React from "react";
+import { flush } from "./flushRedux";
 
 var response = null;
-export const getKraRequest = () => async dispatch => {
-  const res = await Axios.get("/manager/viewkra");
-  dispatch({
-    type: KRA_REQUEST,
-    payload: res.data
-  });
+export const getKraRequest = () => dispatch => {
+  Axios.get("/manager/viewkra")
+    .then(res => {
+      dispatch({
+        type: KRA_REQUEST,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      if (err.response.data.error === "Please authenticate") {
+        dispatch(flush());
+      }
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 export const updateKra = sheetId => async dispatch => {
@@ -57,6 +69,9 @@ export const submitUpdatedKra = (kraData, userid) => async dispatch => {
     });
     dispatch(setCurrentComponent(<KraRequest />));
   } catch (err) {
+    if (err.response.data.error === "Please authenticate") {
+      dispatch(flush());
+    }
     dispatch({
       type: GET_ERRORS,
       payload: err.response.data

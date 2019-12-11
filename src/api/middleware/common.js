@@ -19,7 +19,7 @@ const common = async (req, res, next) => {
     req.skip = skip;
     next();
   } catch (e) {
-    console.log(e.message);
+    console.log( e.message);
     res.status(500).send({ error: "Please authenticate" });
   }
 };

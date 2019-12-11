@@ -13,7 +13,9 @@ import {
   CLEAR_TEAM,
   CLEAR_USERS
 } from "./types";
+
 import { setCurrentComponent } from "./componentActions";
+import { flush } from "./flushRedux";
 import Profile from "../components/myprofile";
 import React from "react";
 // Login - get user token
@@ -65,7 +67,9 @@ export const setCurrentUser = decoded => dispatch => {
         dispatch(setCurrentComponent(<Profile />));
       })
       .catch(err => {
-        console.log(err);
+        if (err.response.data.error === "Please authenticate") {
+          dispatch(flush());
+        }
         dispatch({
           type: GET_ERRORS,
           payload: err.response.data
@@ -85,6 +89,7 @@ export const logoutUser = () => async dispatch => {
   axios
     .get("/logout")
     .then(() => {
+      // dispatch(flush());
       localStorage.removeItem("jwtToken");
       // Remove auth header for future requests
       setAuthToken(false);
@@ -119,9 +124,11 @@ export const logoutUser = () => async dispatch => {
       dispatch(setCurrentUser({}));
     })
     .catch(err => {
+      console.log("in logout catch");
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       });
+      dispatch(flush());
     });
 };
