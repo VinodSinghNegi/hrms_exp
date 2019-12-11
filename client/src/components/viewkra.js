@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
 }));
 let i;
 let years = [];
-for (i = getCurrentMonthAndYear().year; i >= 2005; i--) {
+for (i = getCurrentMonthAndYear().year; i >= 2015; i--) {
   years.push({ i });
 }
 
@@ -92,81 +92,74 @@ function CustomizedTables(props) {
       });
       return props.viewkradata.map((month, i) => {
         return (
-          <StyledTableRow key={i}>
-            <StyledTableCell component="th" scope="row">
-              {trowhead[i]}
-            </StyledTableCell>
-            {month.kraAttributes.map((kra, j) => {
-              return (
-                <StyledTableCell key={j} align="center">
-                  {kra.value}
+          <Table className={classes.table} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell align="left">Key Result Area</StyledTableCell>
+                {props.kraattr.map(kra => (
+                  <StyledTableCell align="center" key={kra._id}>
+                    {kra.name}
+                  </StyledTableCell>
+                ))}
+                <StyledTableCell align="center">Status</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              <StyledTableRow key={i}>
+                <StyledTableCell component="th" scope="row">
+                  {trowhead[i]}
                 </StyledTableCell>
-              );
-            })}
-            <StyledTableCell align="center">{month.Status}</StyledTableCell>
-          </StyledTableRow>
+                {month.kraAttributes.map((kra, j) => {
+                  return (
+                    <StyledTableCell key={j} align="center">
+                      {kra.value}
+                    </StyledTableCell>
+                  );
+                })}
+                <StyledTableCell align="center">{month.Status}</StyledTableCell>
+              </StyledTableRow>
+            </TableBody>
+          </Table>
         );
       });
     }
   };
 
-  if (props.viewkradata) {
-    return (
-      <Paper className={classes.root}>
-        <Header
-          as="h3"
-          content="MY Key Result Area"
-          style={style.h1}
-          textAlign="center"
-        />
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <TableCell colSpan={16} align="right">
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <Select
-                    native
-                    className={classes.select}
-                    defaultValue={getCurrentMonthAndYear().year}
-                    onChange={e => props.viewkra(e.target.value)}
-                    inputProps={{
-                      name: "age",
-                      id: "outlined-age-native-simple"
-                    }}
-                  >
-                    {years.map((d, i) => (
-                      <option key={i} value={d.i}>
-                        {d.i}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-              </TableCell>
-            </TableRow>
+  return (
+    <Paper className={classes.root}>
+      <Header
+        as="h3"
+        content="MY Key Result Area"
+        style={style.h1}
+        textAlign="center"
+      />
 
-            <TableRow>
-              <StyledTableCell align="left">Key Result Area</StyledTableCell>
-              {props.kraattr.map(kra => (
-                <StyledTableCell align="center" key={kra._id}>
-                  {kra.name}
-                </StyledTableCell>
-              ))}
-              <StyledTableCell align="center">Status</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{showlist()}</TableBody>
-        </Table>
-      </Paper>
-    );
-  } else {
-    return "";
-  }
+      <Select
+        defaultValue={getCurrentMonthAndYear().year}
+        onChange={e => props.viewkra(e.target.value)}
+      >
+        {years.map((d, i) => (
+          <option key={i} value={d.i}>
+            {d.i}
+          </option>
+        ))}
+      </Select>
+      {props.viewkradata.length > 0 ? (
+        showlist()
+      ) : (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          NO KRA FILLED
+        </div>
+      )}
+    </Paper>
+  );
 }
 
 const mapStateToProps = state => {
   return {
     viewkradata: state.addKra.viewKraData,
-    kraattr: state.auth.user.userdata.kraAttributes
+    kraattr: state.auth.user.userdata.kraAttributes,
+    errormsg: state.errors.error
   };
 };
 export default connect(mapStateToProps, { viewkra })(CustomizedTables);

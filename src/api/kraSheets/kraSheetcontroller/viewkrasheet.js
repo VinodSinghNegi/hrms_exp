@@ -7,7 +7,7 @@ const Viewkra = async (req, res) => {
   try {
     let kra = await KraSheetModel.findOne({ userId: req._id }).select("-_id");
     if (!kra) {
-      return res.status(400).send("No Kra found");
+      return res.status(400).json({error:"No Kra found"});
     }
 
     kra = kra.kraSheet.filter(e => {
