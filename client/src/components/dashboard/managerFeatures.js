@@ -17,18 +17,18 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TextFieldsIcon from "@material-ui/icons/TextFields";
 
 class ManagerFeatures extends Component {
-  state = { disabled: true, flag: false };
+  state = { disabled: false, flag: false };
 
   componentDidMount() {
     this.props.viewMyTeam();
     const d = new Date().getDate();
-    if (d >= 2 && d <= 30 && !this.props.kraStatus) {
-      this.setState({ disabled: false });
+    if (d >= 2 && d <= 30 && this.props.kraStatus) {
+      this.setState({ disabled: true });
     }
   }
 
-  renderComponent = Component => {
-    this.props.setCurrentComponent(Component);
+  check = () => {
+    this.setState({ disabled: true });
   };
   render() {
     const { myteam } = this.props;
@@ -37,7 +37,7 @@ class ManagerFeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<Myprofile />);
+            this.props.setCurrentComponent(<Myprofile />);
           }}
         >
           <ListItemIcon>
@@ -50,7 +50,7 @@ class ManagerFeatures extends Component {
           disabled={this.state.disabled}
           button
           onClick={() => {
-            this.renderComponent(<FillKra />);
+            this.props.setCurrentComponent(<FillKra check={this.check} />);
           }}
         >
           <ListItemIcon>
@@ -61,7 +61,7 @@ class ManagerFeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<ViewKra />);
+            this.props.setCurrentComponent(<ViewKra />);
           }}
         >
           <ListItemIcon>
@@ -72,7 +72,7 @@ class ManagerFeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<ViewMyTeam myusers={myteam} />);
+            this.props.setCurrentComponent(<ViewMyTeam myusers={myteam} />);
           }}
         >
           <ListItemIcon>
@@ -83,7 +83,7 @@ class ManagerFeatures extends Component {
         <ListItem
           button
           onClick={() => {
-            this.renderComponent(<KraRequest />);
+            this.props.setCurrentComponent(<KraRequest />);
           }}
         >
           <ListItemIcon>

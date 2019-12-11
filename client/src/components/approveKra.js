@@ -30,6 +30,7 @@ class ApproveKra extends React.Component {
               <label htmlFor="customRange1">{kra.name}</label>
               <label style={{ float: "right" }}>{kra.value}</label>
               <input
+                disabled={this.props.status === "Approved" ? true : false}
                 type="range"
                 min={0}
                 max={100}

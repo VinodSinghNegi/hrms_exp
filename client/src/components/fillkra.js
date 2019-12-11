@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, Header, Segment, Button } from "semantic-ui-react";
+
 import getCurrentMonthAndYear from "./utils/getCurrentMonthAndYear";
 import { connect } from "react-redux";
 import Paper from "@material-ui/core/Paper";
@@ -17,30 +18,21 @@ const style = {
 };
 
 class FillKRA extends React.Component {
-  // state = { arr: [] };
-  // componentDidMount = async () => {
-  //   const arr1 = await this.props.kraAttributes.map(ele => {
-  //     ele.value = 20;
-  //   });
-  //   await this.setState({ arr: arr1 });
-  // };
+  componentDidMount = async () => {
+    await this.props.kraAttributes.map(ele => {
+      ele.value = 80;
+    });
+    await this.props.addkra(this.props.kraAttributes);
+  };
 
-  // UNSAFE_componentWillReceiveProps(newuserAttributes) {
-  //   if (newuserAttributes.auth.user.userdata.kraAttributes.value) {
-  //     this.props.addkra(this.state.arr);
-  //   }
-  // }
-  firstfunction=()=>{
-    if(this.props.kraAttributes){
-      const arr=this.props.kraAttributes.map((ele)=>{
-        ele.value=20
-      })
-      console.log(arr)
-      this.props.addkra(arr)
-    }
-  }
+  changeValue = (id, value) => {
+    this.props.addkra({ id, value });
+    ////// below line will be evaluated
+    this.setState({});
+    //////////////////////////
+  };
   showlist = () => {
-    return this.props.kraAttributes.map(kra => {
+    return this.props.kraData.map(kra => {
       return (
         <Grid.Row key={kra._id}>
           <Grid.Column>
@@ -51,15 +43,11 @@ class FillKRA extends React.Component {
                 type="range"
                 min={0}
                 max={100}
-                defaultValue={20}
+                defaultValue={kra.value}
                 className="custom-range"
                 id={kra._id}
                 onChange={e => {
-                  this.props.addkra({
-                    Attributesid: kra._id,
-                    name: kra.name,
-                    value: e.target.value
-                  });
+                  this.changeValue(kra._id, e.target.value);
                 }}
               />
             </Segment>
@@ -69,7 +57,6 @@ class FillKRA extends React.Component {
     });
   };
   render() {
-    this.firstfunction()
     return (
       <Paper style={{ padding: "10px" }}>
         <div>
@@ -89,7 +76,7 @@ class FillKRA extends React.Component {
 
           <Button
             className="ui right floated secondary button"
-            onClick={e => this.props.submitkra(this.props.kraData)}
+            onClick={e => {this.props.submitkra(this.props.kraData); this.props.check()}}
             style={{ marginTop: "15px", marginRight: "30px" }}
           >
             DONE

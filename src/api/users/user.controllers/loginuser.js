@@ -34,7 +34,7 @@ const login = async (req, res) => {
         const payload = {
           userdata: { _id: user2._id }
         };
-        const length=await Notification.find({to:user2._id}).count()
+        const length=await Notification.find({to:user2._id}).countDocuments()
         // Sign token
         jwt.sign(
           payload,

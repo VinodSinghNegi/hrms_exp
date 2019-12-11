@@ -109,54 +109,58 @@ function CustomizedTables(props) {
       });
     }
   };
-  console.log(props);
-  return (
-    <Paper className={classes.root}>
-      <Header
-        as="h3"
-        content="MY Key Result Area"
-        style={style.h1}
-        textAlign="center"
-      />
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <TableCell colSpan={16} align="right">
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Select
-                  native
-                  className={classes.select}
-                  defaultValue={getCurrentMonthAndYear().year}
-                  onChange={e => props.viewkra(e.target.value)}
-                  inputProps={{
-                    name: "age",
-                    id: "outlined-age-native-simple"
-                  }}
-                >
-                  {years.map((d, i) => (
-                    <option key={i} value={d.i}>
-                      {d.i}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-            </TableCell>
-          </TableRow>
 
-          <TableRow>
-            <StyledTableCell align="left">Key Result Area</StyledTableCell>
-            {props.kraattr.map(kra => (
-              <StyledTableCell align="center" key={kra._id}>
-                {kra.name}
-              </StyledTableCell>
-            ))}
-            <StyledTableCell align="center">Status</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{showlist()}</TableBody>
-      </Table>
-    </Paper>
-  );
+  if (props.viewkradata) {
+    return (
+      <Paper className={classes.root}>
+        <Header
+          as="h3"
+          content="MY Key Result Area"
+          style={style.h1}
+          textAlign="center"
+        />
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <TableCell colSpan={16} align="right">
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <Select
+                    native
+                    className={classes.select}
+                    defaultValue={getCurrentMonthAndYear().year}
+                    onChange={e => props.viewkra(e.target.value)}
+                    inputProps={{
+                      name: "age",
+                      id: "outlined-age-native-simple"
+                    }}
+                  >
+                    {years.map((d, i) => (
+                      <option key={i} value={d.i}>
+                        {d.i}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              </TableCell>
+            </TableRow>
+
+            <TableRow>
+              <StyledTableCell align="left">Key Result Area</StyledTableCell>
+              {props.kraattr.map(kra => (
+                <StyledTableCell align="center" key={kra._id}>
+                  {kra.name}
+                </StyledTableCell>
+              ))}
+              <StyledTableCell align="center">Status</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{showlist()}</TableBody>
+        </Table>
+      </Paper>
+    );
+  } else {
+    return "";
+  }
 }
 
 const mapStateToProps = state => {

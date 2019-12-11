@@ -6,18 +6,23 @@ const initialstate = {
 };
 
 export default function(state = initialstate, action) {
-  console.log(action.payload);
   switch (action.type) {
-    case ADD_KRA:
-      // restricting duplicacy
-      const arr = state.fillKra.filter(kra => {
-        return kra.Attributesid !== action.payload.Attributesid ? true : false;
-      });
+    case ADD_KRA: {
+      if (action.payload.length > 1) {
+        return { ...state, fillKra: [...action.payload] };
+      } else {
+        state.fillKra.map(ele => {
+          if (ele._id === action.payload.id) {
+            ele.value = action.payload.value;
+          }
+        });
+      }
+      return state;
+    }
 
-      return { ...state, fillKra: [action.payload, ...arr] };
-
-    case VIEW_KRA:
+    case VIEW_KRA: {
       return { ...state, viewKraData: action.payload };
+    }
     default:
       return state;
   }
