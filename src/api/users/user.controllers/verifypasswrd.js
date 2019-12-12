@@ -15,7 +15,7 @@ res.send(`Your previous password ${password}`)
 console.log("yyuyy");
 
 // next()
-}catch{
+}catch(e){
 res.send("wrong token catch")
 }
 }
