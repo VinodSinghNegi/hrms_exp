@@ -14,7 +14,7 @@ const changePass=async(req,res,next)=>{
         
         res.send(user)
  
-}catch{
+}catch(e){
     res.send("wrong token catch")
 }
 }
